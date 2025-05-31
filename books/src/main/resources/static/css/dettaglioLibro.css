@@ -1,0 +1,239 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: "Segoe UI", sans-serif;
+    background-color: #f9f9f9;
+    color: #333;
+}
+
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 30px 20px;
+}
+
+.card {
+    display: flex;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    margin-bottom: 40px;
+}
+
+.card img {
+    width: 280px;
+    object-fit: cover;
+}
+
+.card .info {
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.card h1 {
+    font-size: 28px;
+    margin-bottom: 15px;
+}
+
+.card p {
+    margin: 6px 0;
+    font-size: 16px;
+}
+
+h2 {
+    font-size: 24px;
+    margin-bottom: 15px;
+    color: #222;
+}
+
+.autori {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 40px;
+}
+
+.autori li {
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+
+.autori a {
+    text-decoration: none;
+    color: #0077cc;
+    font-weight: bold;
+}
+
+.autori .nazionalita {
+    color: #555;
+}
+
+.grid-autori {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.card-autore {
+    background-color: white;
+    width: 300px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    text-align: center;
+}
+
+.card-autore img {
+    width: 100%;
+    height: 350px;
+    object-fit: cover;
+}
+
+.card-autore .info {
+    padding: 10px;
+}
+
+.card-autore h3 {
+    font-size: 18px;
+    margin: 8px 0;
+}
+
+.card-autore p {
+    font-size: 14px;
+    color: #777;
+}
+
+.galleria {
+    display: flex;
+    overflow-x: auto;
+    gap: 1rem;
+    padding: 1rem 0;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+}
+
+.galleria img {
+    flex: 0 0 auto;
+    height: 500px;
+    max-width: 100%;
+    object-fit: contain;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    scroll-snap-align: start;
+    background-color: #f5f5f5;
+    transition: transform 0.2s ease-in-out;
+}
+
+.galleria img:hover {
+    transform: scale(1.05);
+    cursor: pointer;
+}
+
+.form-recensione {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+    max-width: 600px;
+    margin: 40px auto;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.form-recensione label {
+    font-weight: bold;
+    color: #333;
+}
+
+.form-recensione input,
+.form-recensione textarea,
+.form-recensione select {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 10px;
+    font-size: 16px;
+    width: 100%;
+    resize: vertical;
+}
+
+.form-recensione textarea {
+    min-height: 120px;
+}
+
+.form-recensione button {
+    background-color: #007bff;
+    color: white;
+    padding: 12px;
+    font-size: 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.form-recensione button:hover {
+    background-color: #0056b3;
+}
+
+
+/* === RECENSIONI === */
+.recensioni {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-top: 2rem;
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.card-recensione {
+    background: #fcfcfc; /* leggermente più chiaro */
+    border: 1px solid #ccc; /* bordo sottile ma definito */
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05); /* leggero effetto per distacco */
+}
+
+
+.card-recensione h3 {
+    margin-bottom: 5px;
+}
+
+.card-recensione p {
+    margin: 5px 0;
+    color: #333;
+}
+
+.voto {
+    font-weight: bold;
+    font-size: 1.1rem;
+    color: #444;
+}
+
+.stellina {
+    font-size: 18px;
+    margin-right: 2px;
+}
+
+.stellina.piena {
+    color: #FFD700; /* oro */
+}
+
+.stellina.vuota {
+    color: #ccc; /* grigino */
+}
+
+.testo {
+    margin-top: 0.5rem;
+}
+
+.autore {
+    font-style: italic;
+    color: #555;
+}

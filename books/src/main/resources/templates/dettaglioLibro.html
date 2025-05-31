@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="it" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${libro.titolo}">Dettaglio Libro</title>
+    <link rel="stylesheet" th:href="@{/css/dettaglioLibro.css}">
+    <link rel="stylesheet" th:href="@{/css/navbar.css}">
+</head>
+<body>
+
+<!-- Navbar pubblica -->
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<div class="container">
+
+    <!-- 📘 Dati libro -->
+    <div class="card">
+        <img th:src="@{'/images/books/' + ${#strings.replace(#strings.toLowerCase(libro.titolo), ' ', '_')} + '_1.jpg'}"
+             th:alt="|Copertina del libro ${libro.titolo}|" />
+        <div class="info">
+            <h1 th:text="${libro.titolo}">Titolo</h1>
+            <p>
+                <strong>Anno di pubblicazione:</strong>
+                <span th:text="${libro.annoPubblicazione}">Anno</span>
+            </p>
+        </div>
+    </div>
+
+    <!-- 🖼️ Galleria immagini -->
+    <h2>Ulteriori immagini</h2>
+    <div class="galleria">
+        <img th:each="i : ${#numbers.sequence(1, 5)}"
+             th:src="@{'/images/books/' + ${#strings.replace(#strings.toLowerCase(libro.titolo), ' ', '_')} + '_' + ${i} + '.jpg'}"
+             th:alt="|${libro.titolo} - immagine ${i}|"
+             onerror="this.style.display='none'" />
+    </div>
+
+    <!-- 👤 Autori -->
+    <div class="autori">
+        <h2>Autore/i</h2>
+        <div class="grid-autori">
+            <div class="card-autore" th:each="a : ${libro.autori}">
+                <a th:href="@{'/autori/' + ${a.id}}">
+                    <img th:src="@{'/images/authors/' + ${#strings.replace(#strings.replace(#strings.toLowerCase(a.nome + ' ' + a.cognome), '.', ''), ' ', '_')} + '.jpg'}"
+                         th:alt="|Foto di ${a.nome} ${a.cognome}|" />
+                </a>
+                <div class="info">
+                    <h3 th:text="${a.nome + ' ' + a.cognome}">Nome Cognome</h3>
+                    <p th:text="${a.nazionalita}">Nazionalità</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ⭐ Recensioni -->
+    <h2>Recensioni</h2>
+    <div class="recensioni">
+        <div class="card-recensione" th:each="rec : ${recensioni}">
+            <h3 th:text="${rec.titolo}">Titolo recensione</h3>
+
+            <p>
+                <strong>Voto:</strong>
+                <span th:each="i : ${#numbers.sequence(1, rec.voto)}" class="stellina piena">★</span>
+                <span th:each="i : ${#numbers.sequence(1, 5 - rec.voto)}" class="stellina vuota">☆</span>
+                <span th:text="| (${rec.voto}/5) |">(5/5)</span>
+            </p>
+
+            <p>
+                <strong>Autore:</strong>
+                <span th:if="${rec.autore != null}" th:text="${rec.autore.nome + ' ' + rec.autore.cognome}">Nome Cognome</span>
+                <em th:if="${rec.autore == null}">Utente anonimo</em>
+            </p>
+
+            <p th:text="${rec.testo}">Testo recensione</p>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

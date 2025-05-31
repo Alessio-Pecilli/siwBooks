@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="it" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>SIW Books - Home</title>
+    <link rel="stylesheet" th:href="@{/css/home.css}">
+</head>
+<body>
+    <header>
+        <h1>📚 SIW Books</h1>
+        <p>Scopri autori, recensioni e libri da leggere</p>
+    </header>
+
+    <main class="buttons">
+        <a th:href="@{/libri}">Visualizza tutti i libri</a>
+        <a th:href="@{/autori}">Visualizza autori</a>
+        <a th:href="@{/login}">Accedi</a>
+        <a th:href="@{/register}">Registrati</a>
+    </main>
+</body>
+</html>

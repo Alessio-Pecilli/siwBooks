@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="it" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${autore.nome + ' ' + autore.cognome}">Autore</title>
+    <link rel="stylesheet" th:href="@{/css/dettaglioAutore.css}">
+    <link rel="stylesheet" th:href="@{/css/navbar.css}">
+</head>
+<body>
+
+<!-- Navbar per admin -->
+<div th:replace="~{fragments/navbarAmministratori :: navbar}"></div>
+
+<div class="container">
+    <div class="card">
+        <!-- Foto autore -->
+        <img th:src="@{'/images/authors/' + ${#strings.replace(#strings.replace(#strings.toLowerCase(autore.nome + ' ' + autore.cognome), '.', ''), ' ', '_')} + '.jpg'}"
+             th:alt="${autore.nome + ' ' + autore.cognome}">
+
+        <!-- Info -->
+        <div class="info">
+            <h1 th:text="${autore.nome + ' ' + autore.cognome}">Nome Cognome</h1>
+
+            <p><strong>Nascita:</strong> 
+                <span th:text="${autore.dataNascita}">Data Nascita</span>
+            </p>
+
+            <p th:if="${autore.dataMorte != null}">
+                <strong>Morte:</strong> 
+                <span th:text="${autore.dataMorte}">Data Morte</span>
+            </p>
+
+            <p><strong>Nazionalità:</strong> 
+                <span th:text="${autore.nazionalita}">Nazionalità</span>
+            </p>
+
+            <!-- Azioni -->
+            <div class="azioni">
+                <form th:action="@{'/amministratori/eliminaAutore/' + ${autore.id}}" method="post" style="display:inline-block;">
+                    <button type="submit" class="btn btn-danger">🗑️ Elimina</button>
+                </form>
+
+                <a th:href="@{'/amministratori/autori/modifica/' + ${autore.id}}" class="btn btn-secondary" style="margin-left: 10px;">
+                    ✏️ Modifica
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Libri -->
+    <h2>Libri scritti</h2>
+    <div class="grid-libri">
+        <div class="card-libro" th:each="libro : ${libri}">
+            <a th:href="@{'/amministratori/libri/' + ${libro.id}}">
+                <img th:src="@{'/images/books/' + ${#strings.replace(#strings.toLowerCase(libro.titolo), ' ', '_')} + '_1.jpg'}"
+                     th:alt="${libro.titolo}" />
+            </a>
+            <div class="content">
+                <h2 th:text="${libro.titolo}">Titolo Libro</h2>
+                <p class="anno">
+                    Anno: <span th:text="${libro.annoPubblicazione}">2023</span>
+                </p>
+                <div class="autori">
+                    <span th:each="a : ${libro.autori}" th:text="${a.nome + ' ' + a.cognome + ' '}">Autore</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

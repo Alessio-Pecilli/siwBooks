@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="it" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${autore.id != null} ? 'Modifica Autore' : 'Nuovo Autore'">Autore</title>
+    <link rel="stylesheet" th:href="@{/css/form-autore.css}">
+    <link rel="stylesheet" th:href="@{/css/dettaglioAutore.css}">
+    <link rel="stylesheet" th:href="@{/css/navbar.css}">
+</head>
+<body>
+
+<!-- Navbar -->
+<div th:replace="~{fragments/navbarAmministratori :: navbar}"></div>
+
+<h1 th:text="${autore.id != null} ? 'Modifica Autore' : 'Nuovo Autore'">Autore</h1>
+
+<div class="container">
+
+    <!-- Preview immagine solo se esiste autore -->
+    <div class="card" th:if="${autore.id != null}">
+        <img th:src="@{'/images/authors/' + ${#strings.replace(#strings.replace(#strings.toLowerCase(autore.nome + ' ' + autore.cognome), '.', ''), ' ', '_')} + '.jpg'}"
+             th:alt="${autore.nome + ' ' + autore.cognome}" />
+        <div class="info">
+            <h1 th:text="${autore.nome + ' ' + autore.cognome}">Nome Cognome</h1>
+            <p><strong>Nascita:</strong> <span th:text="${autore.dataNascita}">--</span></p>
+            <p th:if="${autore.dataMorte != null}">
+                <strong>Morte:</strong> <span th:text="${autore.dataMorte}">--</span>
+            </p>
+            <p><strong>Nazionalità:</strong> <span th:text="${autore.nazionalita}">--</span></p>
+        </div>
+    </div>
+
+    <!-- FORM -->
+    <form method="post"
+          th:action="${autore.id != null} ? @{/amministratori/autori/modifica/{id}(id=${autore.id})} : @{/amministratori/autori/crea}"
+          th:object="${autore}"
+          enctype="multipart/form-data">
+
+        <label>Nome:</label>
+        <input type="text" th:field="*{nome}" required>
+
+        <label>Cognome:</label>
+        <input type="text" th:field="*{cognome}" required>
+
+        <label>Data di nascita:</label>
+        <input type="date" th:field="*{dataNascita}">
+
+        <label>Data di morte:</label>
+        <input type="date" th:field="*{dataMorte}">
+
+        <label>Nazionalità:</label>
+        <input type="text" th:field="*{nazionalita}">
+
+        <label>Foto (JPG):</label>
+        <input type="file" name="foto" accept="image/*">
+
+        <label>Libri scritti:</label>
+        <div class="grid-libri">
+            <div class="card-libro" th:each="libro : ${libri}">
+                <img th:src="@{'/images/books/' + ${#strings.replace(#strings.toLowerCase(libro.titolo), ' ', '_')} + '_1.jpg'}"
+                     th:alt="${libro.titolo}" />
+                <div class="content">
+                    <h3 th:text="${libro.titolo}">Titolo Libro</h3>
+                    <input type="checkbox" th:name="libriIds"
+                           th:value="${libro.id}"
+                           th:checked="${autore.libri != null and autore.libri.contains(libro)}">
+                </div>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary" 
+                th:text="${autore.id != null} ? 'Aggiorna Autore' : 'Crea Autore'">
+            Salva
+        </button>
+    </form>
+</div>
+
+</body>
+</html>

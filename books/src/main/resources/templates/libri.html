@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="it" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Catalogo Libri</title>
+    <link rel="stylesheet" th:href="@{/css/libri.css}">
+    <link rel="stylesheet" th:href="@{/css/navbar.css}">
+</head>
+<body>
+
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<h1>Libri</h1>
+<div class="container">
+<div class="grid-libri">
+        <div class="card-libro" th:each="libro : ${libri}">
+            <a th:href="@{'/libri/' + ${libro.id}}">
+                <img th:src="@{'/images/books/' + ${#strings.replace(#strings.toLowerCase(libro.titolo), ' ', '_')} + '_1.jpg'}"
+                     th:alt="|Copertina di ${libro.titolo}|" />
+            </a>
+            <div class="content">
+                <h2 th:text="${libro.titolo}">Titolo Libro</h2>
+                <p class="anno">Anno: <span th:text="${libro.annoPubblicazione}">2023</span></p>
+                <div class="autori">
+                    <span th:each="a : ${libro.autori}" th:text="${a.nome + ' ' + a.cognome + ' '}">Autore</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
