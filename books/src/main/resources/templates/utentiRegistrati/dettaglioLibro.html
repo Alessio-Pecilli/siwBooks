@@ -69,13 +69,26 @@
             </p>
 
             <p th:text="${rec.testo}">Testo recensione</p>
+
+        <form th:if="${rec.autore.id == utente.id}"
+              th:action="@{'/utenti/recensioni/elimina/' + ${rec.id}}"
+
+              method="post"
+              style="margin-left: 10px;">
+            <button type="submit"
+                    title="Elimina"
+                    onclick="return confirm('Eliminare questa recensione?')"
+                    style="background: none; border: none; font-size: 18px; cursor: pointer; color: #ff5c5c;">
+                🗑
+            </button>
+        </form>
         </div>
     </div>
 
     <!-- 📝 Form recensione -->
     <h2>Aggiungi una recensione</h2>
 
-    <form method="post" th:action="@{'/libri/' + ${libro.id} + '/aggiungiRecensione'}"
+    <form method="post" th:action="@{/utenti/libri/{id}/aggiungiRecensione(id=${libro.id})}"
           th:object="${recensione}" class="recensione-form">
 
         <div class="form-group">
@@ -96,6 +109,8 @@
                 </option>
             </select>
         </div>
+
+        
 
         <button type="submit" class="btn">Invia recensione</button>
     </form>

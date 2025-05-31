@@ -65,4 +65,6 @@ public class Recensione {
     public void setId(Long id) {
         this.id = id;
     }
+
+    
 }

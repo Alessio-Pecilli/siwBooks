@@ -1,0 +1,58 @@
+
+<!DOCTYPE html>
+<html lang="it" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LibriHub - Registrazione</title>
+  <link rel="stylesheet" th:href="@{/css/auth.css}" />
+  <link rel="stylesheet" th:href="@{/css/navbar.css}">
+</head>
+<body>
+<header class="header">
+  <nav class="nav">
+    <div th:replace="~{fragments/navbar :: navbar}"></div>
+  </nav>
+</header>
+<main class="main-content">
+  <h1>Crea un account</h1>
+  <span th:if="${msgSuccess}" class="success-message" th:text="${msgSuccess}"></span>
+  <span th:if="${msgError}" class="error-message" th:text="${msgError}"></span>
+  <form method="POST" th:action="@{/register}" autocomplete="off" novalidate>
+    <div class="form-group">
+      <label for="nome">Nome</label>
+      <input type="text" th:field="${utente.nome}" placeholder="Nome" required minlength="2">
+    </div>
+    <div class="form-group">
+      <label for="cognome">Cognome</label>
+      <input type="text" th:field="${utente.cognome}" placeholder="Cognome" required minlength="2">
+    </div>
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input type="email" th:field="${utente.email}" placeholder="Email" required>
+    </div>
+    <div class="form-group">
+      <label for="username">Username</label>
+      <input type="text" th:field="${credentials.username}" placeholder="Username" required minlength="4">
+    </div>
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input type="password" th:field="${credentials.password}" placeholder="Password" required minlength="6">
+    </div>
+    <div class="form-group">
+      <label for="confermaPwd">Conferma Password</label>
+      <input type="password" name="confermaPwd" placeholder="Conferma Password" required minlength="6">
+    </div>
+    <button type="submit">Registrati</button>
+    <div class="login-link">
+      <p>Hai già un account? <a th:href="@{/login}" class="signin-link">Accedi</a></p>
+    </div>
+  </form>
+</main>
+<footer class="footer">
+  <div class="footer-content">
+    <p>LibriHub - La tua piattaforma di libri preferita</p>
+  </div>
+</footer>
+</body>
+</html>

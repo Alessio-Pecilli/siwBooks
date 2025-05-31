@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="it" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Area Personale - GameHub</title>
+    <link rel="stylesheet" th:href="@{/css/auth.css}">
+    <link rel="stylesheet" th:href="@{/css/navbar.css}">
+</head>
+<body>
+
+<header class="header">
+    <div th:replace="~{fragments/navbar :: navbar}"></div>
+</header>
+
+<main class="main-content">
+    <h1>Benvenuto <span th:text="${utente.nome}">Utente</span>!</h1>
+    <section class="user-info">
+        <h2>Le tue informazioni</h2>
+        <ul>
+            <li><strong>ID:</strong> <span th:text="${utente.id}">ID</span></li>
+            <li><strong>Nome:</strong> <span th:text="${utente.nome}">Nome</span></li>
+            <li><strong>Cognome:</strong> <span th:text="${utente.cognome}">Cognome</span></li>
+            <li><strong>Email:</strong> <span th:text="${utente.email}">Email</span></li>
+        </ul>
+    </section>
+</main>
+
+</body>
+</html>

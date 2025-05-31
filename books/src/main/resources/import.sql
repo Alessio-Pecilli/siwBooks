@@ -17,6 +17,8 @@ INSERT INTO libro_autori (libro_id, autori_id) VALUES ((SELECT id FROM libro WHE
 INSERT INTO utente  (nome, cognome, email) VALUES ('Mario', 'Verdi', 'mario.verdi@example.com');
 INSERT INTO utente  (nome, cognome, email) VALUES ('Luca', 'Blu', 'luca.blu@example.com');
 INSERT INTO utente  (nome, cognome, email) VALUES ('Silvia', 'Nera', 'silvia.nera@example.com');
+INSERT INTO utente  (nome, cognome, email) VALUES ('Alessio', 'Pecilli', 'alessiopecilli2003@gmail.com');
+INSERT INTO utente  (nome, cognome, email) VALUES ('Simone', 'Morolli', 'simone.morolli@gmail.com');
 
 
 INSERT INTO recensione (titolo, voto, testo, autore_id, libro_id) VALUES ('Capolavoro', 5, 'Incredibile e profondo', (SELECT id FROM utente WHERE nome = 'Mario' AND cognome = 'Verdi'), (SELECT id FROM libro WHERE titolo = '1984'));
@@ -24,3 +26,7 @@ INSERT INTO recensione (titolo, voto, testo, autore_id, libro_id) VALUES ('Magic
 INSERT INTO recensione (titolo, voto, testo, autore_id, libro_id) VALUES ('Brutale', 4, 'Una storia cruda e avvincente', (SELECT id FROM utente WHERE nome = 'Luca' AND cognome = 'Blu'), (SELECT id FROM libro WHERE titolo = 'The Walking Dead'));
 INSERT INTO recensione (titolo, voto, testo, autore_id, libro_id) VALUES ('Epico', 5, 'Intrighi e battaglie leggendarie', (SELECT id FROM utente WHERE nome = 'Silvia' AND cognome = 'Nera'), (SELECT id FROM libro WHERE titolo = 'Game of Thrones'));
 INSERT INTO recensione (titolo, voto, testo, autore_id, libro_id) VALUES ('Meh', 3, 'Meglio la serie', (SELECT id FROM utente WHERE nome = 'Mario' AND cognome = 'Verdi'), (SELECT id FROM libro WHERE titolo = 'Game of Thrones'));
+
+INSERT INTO credentials(id, utente_id, password, role, username) VALUES (nextval('credentials_seq'),(SELECT u.id FROM utente as u WHERE u.email='alessiopecilli2003@gmail.com'),'$2a$10$Nz4769bR1Iutd8perNFRPuB9xf5CbEMqRd02hg8twA.6jqE1Gq1Iy', 'ADMIN','ale');
+
+INSERT INTO credentials(id, utente_id, password, role, username) VALUES (nextval('credentials_seq'),(SELECT u.id FROM utente as u WHERE u.email='simone.morolli@gmail.com'),'$2a$10$Nz4769bR1Iutd8perNFRPuB9xf5CbEMqRd02hg8twA.6jqE1Gq1Iy', 'DEFAULT','simo');
