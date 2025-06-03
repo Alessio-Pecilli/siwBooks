@@ -5,14 +5,18 @@ import java.nio.file.StandardCopyOption;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import siw.books.model.Autore;
+import siw.books.model.Credentials;
+import siw.books.model.Immagine;
 import siw.books.model.Libro;
 import siw.books.services.AutoreService;
+import siw.books.services.CredentialsService;
 import siw.books.services.LibroService;
 
 import java.io.IOException;
@@ -32,39 +36,30 @@ public class AutoreController {
     @Autowired
     private LibroService libroService;
 
-    @GetMapping("/autori")
-    public String getAllAutori(Model model) {
-        Iterable<Autore> iterable = autoreService.findAll();
-        List<Autore> autori = new ArrayList<>();
-        iterable.forEach(autori::add);
+    
+    @Autowired
+    private CredentialsService credentialsService;
 
-        model.addAttribute("autori", autori);
-        return "autori";
-    }
+    
 
-    @GetMapping("amministratori/autori")
-    public String getAllAutoriAdmin(Model model) {
-        Iterable<Autore> iterable = autoreService.findAll();
-        List<Autore> autori = new ArrayList<>();
-        iterable.forEach(autori::add);
+    @GetMapping({"/autori", "/amministratori/autori"})
+public String getAllAutori(Model model, Authentication authentication) {
+    Iterable<Autore> iterable = autoreService.findAll();
+    List<Autore> autori = new ArrayList<>();
+    iterable.forEach(autori::add);
+    model.addAttribute("autori", autori);
 
-        model.addAttribute("autori", autori);
-        return "amministratori/autori";
-    }
-
-    @GetMapping("amministratori/autori/{id}")
-    public String getAutoreAdmin(@PathVariable Long id, Model model) {
-        Optional<Autore> optionalAutore = autoreService.findById(id);
-        if (optionalAutore.isPresent()) {
-            Autore autore = optionalAutore.get();
-            List<Libro> libri = libroService.findByAutore(autore);
-            model.addAttribute("autore", autore);
-            model.addAttribute("libri", libri);
-            return "amministratori/dettaglioAutore";
-        } else {
-            return "redirect:amministratori/autori"; // oppure una pagina 404
+    if (authentication != null) {
+        String username = authentication.getName();
+        Credentials credentials = credentialsService.getCredentialsByUsername(username);
+        if (credentials.getRole().equals(Credentials.ADMIN_ROLE)) {
+            return "amministratori/autori";
         }
     }
+
+    return "autori";
+}
+
 
 
     @PostMapping("/amministratori/eliminaAutore/{id}")
@@ -113,9 +108,30 @@ public String saveAutore(
         autore.setLibri(libri);
     }
 
+     if (foto != null && !foto.isEmpty()) {
+        try {
+            System.out.println("Caricamento foto per l'autore: " + nome + " " + cognome);
+            // Costruisci nome e path
+            String nomeFile = (nome + "_" + cognome).toLowerCase().replace(" ", "_").replace(".", "") + ".jpg";
+            Path uploadPath = Paths.get("src/main/resources/static/images/authors/" + nomeFile);
+            Files.copy(foto.getInputStream(), uploadPath, StandardCopyOption.REPLACE_EXISTING);
+            System.out.println("Foto caricata con successo: " + nomeFile);
+            // Crea oggetto Immagine e collega all'autore
+            Immagine immagine = new Immagine();
+            immagine.setNomeFile(nomeFile);
+            immagine.setPath("/images/authors/" + nomeFile);
+            autore.setFotografia(immagine);
+
+        } catch (IOException e) {
+            System.err.println("Eccezione: " + e.getMessage());
+            e.printStackTrace(); // o loggalo
+        }
+    }
+
     autoreService.save(autore);
     return "redirect:/amministratori/autori";
 }
+
 @GetMapping("/amministratori/autori/modifica/{id}")
 public String mostraFormModifica(@PathVariable Long id, Model model) {
     Optional<Autore> autoreOpt = autoreService.findById(id);
@@ -124,52 +140,31 @@ public String mostraFormModifica(@PathVariable Long id, Model model) {
         model.addAttribute("autore", autore);
         model.addAttribute("libri", libroService.findAll());
 
-        // Costruisci anche il nome del file immagine da mostrare
-        String nomeFile = (autore.getNome() + " " + autore.getCognome())
-                .toLowerCase().replace(" ", "_").replace(".", "") + ".jpg";
-        model.addAttribute("fotoAutore", "/images/authors/" + nomeFile);
-
         return "amministratori/formAutore";
     }
     return "redirect:/amministratori/autori";
 }
 
 
+
 @PostMapping("/amministratori/autori/modifica/{id}")
-public String aggiornaAutore(
-        @PathVariable("id") Long id,
-        @RequestParam("nome") String nome,
-        @RequestParam("cognome") String cognome,
-        @RequestParam(value = "dataNascita", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataNascita,
-        @RequestParam(value = "dataMorte", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataMorte,
-        @RequestParam(value = "nazionalita", required = false) String nazionalita,
-        @RequestParam(value = "foto", required = false) MultipartFile foto,
-        @RequestParam(value = "libriIds", required = false) List<Long> libroIds
-) {
-    Optional<Autore> optionalAutore = autoreService.findById(id);
-    if (optionalAutore.isPresent()) {
-        Autore autore = optionalAutore.get();
-        autore.setNome(nome);
-        autore.setCognome(cognome);
-        autore.setDataNascita(dataNascita);
-        autore.setDataMorte(dataMorte);
-        autore.setNazionalita(nazionalita);
+public String modificaAutore(@PathVariable Long id,
+                             @ModelAttribute Autore autoreModificato,
+                             @RequestParam("foto") MultipartFile nuovaFoto,
+                             Model model) throws IOException {
 
-        if (libroIds != null) {
-            List<Libro> libriAssociati = libroService.findAllById(libroIds);
-            autore.setLibri(libriAssociati);
-        } else {
-            autore.setLibri(List.of());
-        }
+    Optional<Autore> opt = autoreService.findById(id);
+    if (opt.isPresent()) {
+        Autore autore = opt.get();
 
-        if (foto != null && !foto.isEmpty()) {
-            try {
-                String nomeFile = (nome + " " + cognome).toLowerCase().replace(" ", "_").replace(".", "") + ".jpg";
-                Path path = Paths.get("src/main/resources/static/images/authors/", nomeFile);
-                Files.copy(foto.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
-            } catch (IOException ignored) {}
-        }
+        // Aggiorna campi base
+        autore.setNome(autoreModificato.getNome());
+        autore.setCognome(autoreModificato.getCognome());
+        autore.setDataNascita(autoreModificato.getDataNascita());
+        autore.setDataMorte(autoreModificato.getDataMorte());
+        autore.setNazionalita(autoreModificato.getNazionalita());
 
+        
         autoreService.save(autore);
     }
 
@@ -177,20 +172,31 @@ public String aggiornaAutore(
 }
 
 
-    @GetMapping("autori/{id}")
-    public String getAutore(@PathVariable Long id, Model model) {
-        Optional<Autore> optionalAutore = autoreService.findById(id);
-        if (optionalAutore.isPresent()) {
-            Autore autore = optionalAutore.get();
-            List<Libro> libri = libroService.findByAutore(autore);
-            model.addAttribute("autore", autore);
-            model.addAttribute("libri", libri);
-            return "dettaglioAutore";
-        } else {
-            return "redirect:/autori"; // oppure una pagina 404
-        }
+
+    @GetMapping({"/autori/{id}", "/amministratori/autori/{id}"})
+public String getAutore(@PathVariable Long id, Model model, Authentication authentication) {
+    Optional<Autore> optionalAutore = autoreService.findById(id);
+    if (optionalAutore.isEmpty()) {
+        return "redirect:/autori";
     }
 
+    Autore autore = optionalAutore.get();
+    List<Libro> libri = libroService.findByAutore(autore);
+    model.addAttribute("autore", autore);
+    model.addAttribute("libri", libri);
+   
+
+    if (authentication != null) {
+        String username = authentication.getName();
+        Credentials credentials = credentialsService.getCredentialsByUsername(username);
+        if (credentials.getRole().equals(Credentials.ADMIN_ROLE)) {
+            return "amministratori/dettaglioAutore";
+        }
+        
+    }
+
+    return "dettaglioAutore";
+}
 
     @GetMapping("/amministratori/elimina/{id}")
     public String deleteAutore(@PathVariable Long id) {

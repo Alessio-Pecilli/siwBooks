@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="it" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Errore</title>
+    <link rel="stylesheet" th:href="@{/css/error.css}">
+    <link rel="stylesheet" th:href="@{/css/navbar.css}">
+</head>
+<body>
+
+<!-- Navbar -->
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<main class="main-content">
+    <h1>Oops! Errore <span th:text="${status}">XXX</span></h1>
+    <p class="description" th:switch="${status}">
+        <span th:case="'404'">La pagina che cerchi non esiste oppure è stata spostata.</span>
+        <span th:case="'403'">Non hai i permessi per accedere a questa risorsa.</span>
+        <span th:case="'500'">Si è verificato un errore interno. Stiamo lavorando per risolverlo!</span>
+        <span th:case="*">Si è verificato un errore imprevisto.</span>
+    </p>
+    <a href="/" class="btn-home">Torna alla Home</a>
+</main>
+
+</body>
+</html>

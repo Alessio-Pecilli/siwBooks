@@ -56,4 +56,39 @@ private List<Recensione> recensioni = new ArrayList<>();
     public List<Recensione> getRecensioni() {
         return recensioni;
     }
+
+    public void setAutori(List<Autore> autoriSelezionati) {
+        this.autori = autoriSelezionati;
+    }
+
+    public void setAnnoPubblicazione(Integer annoPubblicazione) {
+        this.annoPubblicazione = annoPubblicazione;
+    }
+
+    public void setTitolo(String titolo) {
+        this.titolo = titolo;
+    }
+
+    public void setRecensioni(List<Recensione> recensioni) {
+        this.recensioni = recensioni;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public int getMediaVotiRecensioni() {
+        int somma = 0;
+        int mediaVoti;
+        if (recensioni != null && !recensioni.isEmpty()) {
+            for (Recensione recensione : recensioni) {
+                somma += recensione.getVoto();
+            }
+            mediaVoti = somma / recensioni.size();
+        } else {
+            mediaVoti = 0;
+        }
+        
+        return mediaVoti;
+    }
 }

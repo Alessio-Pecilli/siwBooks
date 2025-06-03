@@ -15,10 +15,16 @@
 
     <!-- 📘 Dettaglio libro -->
     <div class="card">
-        <img th:src="@{'/images/books/' + ${#strings.replace(#strings.toLowerCase(libro.titolo), ' ', '_')} + '_1.jpg'}"
-             th:alt="|Copertina del libro ${libro.titolo}|" />
+        <img th:src="@{${copertina}}" alt="Copertina principale" />
         <div class="info">
-            <h1 th:text="${libro.titolo}">Titolo</h1>
+            <h1 th:text="${libro.titolo}">Titolo</h1><span class="stelle">
+    <strong>Voto:</strong>
+    <span th:each="i : ${#numbers.sequence(1, 5)}"
+          th:text="${i <= media ? '★' : '☆'}"
+          th:classappend="${i <= media ? 'piena' : 'vuota'}"
+          class="stellina">★</span>
+          <span th:text="| (${media} / 5) |">(0 / 5)</span>
+</span>
             <p><strong>Anno di pubblicazione:</strong> <span th:text="${libro.annoPubblicazione}">Anno</span></p>
         </div>
     </div>
@@ -26,10 +32,7 @@
     <!-- 🖼️ Galleria -->
     <h2>Ulteriori immagini</h2>
     <div class="galleria">
-        <img th:each="i : ${#numbers.sequence(1, 5)}"
-             th:src="@{'/images/books/' + ${#strings.replace(#strings.toLowerCase(libro.titolo), ' ', '_')} + '_' + ${i} + '.jpg'}"
-             th:alt="|${libro.titolo} immagine ${i}|"
-             onerror="this.style.display='none'" />
+        <img th:each="path : ${copertine}" th:src="@{${path}}" th:alt="'Copertina aggiuntiva'" />
     </div>
 
     <!-- 👤 Autori -->
@@ -38,8 +41,9 @@
         <div class="grid-autori">
             <div class="card-autore" th:each="a : ${libro.autori}">
                 <a th:href="@{'/autori/' + ${a.id}}">
-                    <img th:src="@{'/images/authors/' + ${#strings.replace(#strings.replace(#strings.toLowerCase(a.nome + ' ' + a.cognome), '.', ''), ' ', '_')} + '.jpg'}"
-                         th:alt="|Foto di ${a.nome} ${a.cognome}|" />
+                    <img th:if="${a.fotografia != null}" 
+     th:src="@{${a.fotografia.path}}" 
+     th:alt="|Foto di ${a.nome} ${a.cognome}|" />
                 </a>
                 <div class="info">
                     <h3 th:text="${a.nome + ' ' + a.cognome}">Nome Cognome</h3>

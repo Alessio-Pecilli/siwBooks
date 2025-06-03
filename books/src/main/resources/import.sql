@@ -30,3 +30,35 @@ INSERT INTO recensione (titolo, voto, testo, autore_id, libro_id) VALUES ('Meh',
 INSERT INTO credentials(id, utente_id, password, role, username) VALUES (nextval('credentials_seq'),(SELECT u.id FROM utente as u WHERE u.email='alessiopecilli2003@gmail.com'),'$2a$10$Nz4769bR1Iutd8perNFRPuB9xf5CbEMqRd02hg8twA.6jqE1Gq1Iy', 'ADMIN','ale');
 
 INSERT INTO credentials(id, utente_id, password, role, username) VALUES (nextval('credentials_seq'),(SELECT u.id FROM utente as u WHERE u.email='simone.morolli@gmail.com'),'$2a$10$Nz4769bR1Iutd8perNFRPuB9xf5CbEMqRd02hg8twA.6jqE1Gq1Iy', 'DEFAULT','simo');
+
+INSERT INTO immagine (nome_file, path, libro_id) VALUES ('1984_1.jpg', '/images/books/1984_1.jpg', 1);
+INSERT INTO immagine (nome_file, path, libro_id) VALUES ('game_of_thrones_1.jpg', '/images/books/game_of_thrones_1.jpg', 4);
+INSERT INTO immagine (nome_file, path, libro_id) VALUES ('game_of_thrones_2.jpg', '/images/books/game_of_thrones_2.jpg', 4);
+INSERT INTO immagine (nome_file, path, libro_id) VALUES ('game_of_thrones_3.jpg', '/images/books/game_of_thrones_3.jpg', 4);
+INSERT INTO immagine (nome_file, path, libro_id) VALUES ('game_of_thrones_4.jpg', '/images/books/game_of_thrones_4.jpg', 4);
+INSERT INTO immagine (nome_file, path, libro_id) VALUES ('game_of_thrones_5.jpg', '/images/books/game_of_thrones_5.jpg', 4);
+INSERT INTO immagine (nome_file, path, libro_id) VALUES ('harry_potter_1.jpg', '/images/books/harry_potter_1.jpg', 2);
+INSERT INTO immagine (nome_file, path, libro_id) VALUES ('the_walking_dead_1.jpg', '/images/books/the_walking_dead_1.jpg', 3);
+
+INSERT INTO immagine (nome_file, path, autore_id) VALUES ('george_orwell.jpg', '/images/authors/george_orwell.jpg', 1);
+INSERT INTO immagine (nome_file, path, autore_id) VALUES ('george_rr_martin.jpg', '/images/authors/george_rr_martin.jpg', 2);
+INSERT INTO immagine (nome_file, path, autore_id) VALUES ('jk_rowling.jpg', '/images/authors/jk_rowling.jpg', 3);
+INSERT INTO immagine (nome_file, path, autore_id) VALUES ('robert_kirkman.jpg', '/images/authors/robert_kirkman.jpg', 4);
+
+
+INSERT INTO immagine (nome_file, path, libro_id) VALUES ('harry_potter_2.jpg', '/images/books/harry_potter_2.jpg', 2);
+INSERT INTO immagine (nome_file, path, libro_id) VALUES ('harry_potter_3.jpg', '/images/books/harry_potter_3.jpg', 2);
+INSERT INTO immagine (nome_file, path, libro_id) VALUES ('harry_potter_4.jpg', '/images/books/harry_potter_4.jpg', 2);
+
+INSERT INTO immagine (nome_file, path, libro_id) VALUES ('the_walking_dead_2.jpg', '/images/books/the_walking_dead_2.jpg', 3);
+INSERT INTO immagine (nome_file, path, libro_id) VALUES ('the_walking_dead_3.jpg', '/images/books/the_walking_dead_3.jpg', 3);
+INSERT INTO immagine (nome_file, path, libro_id) VALUES ('the_walking_dead_4.jpg', '/images/books/the_walking_dead_4.jpg', 3);
+
+INSERT INTO immagine (nome_file, path, libro_id) VALUES ('1984_2.jpg', '/images/books/1984_2.jpg', 1);
+INSERT INTO immagine (nome_file, path, libro_id) VALUES ('1984_3.jpg', '/images/books/1984_3.jpg', 1);
+UPDATE autore SET fotografia_id = 9 WHERE id = 1; -- Orwell
+UPDATE autore SET fotografia_id = 11 WHERE id = 2; -- Rowling
+UPDATE autore SET fotografia_id = 12 WHERE id = 3; -- Kirkman
+UPDATE autore SET fotografia_id = 10 WHERE id = 4; -- Martin
+
+

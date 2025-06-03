@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="it" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Nuovo Libro</title>
+    <link rel="stylesheet" th:href="@{/css/form.css}">
+</head>
+<body>
+<h1>Inserisci un Nuovo Libro</h1>
+
+<form th:action="@{/amministratori/libri/save}" method="post" enctype="multipart/form-data" th:object="${libro}">
+
+    <label for="titolo">Titolo</label>
+    <input type="text" id="titolo" th:field="*{titolo}" required>
+    <div th:if="${#fields.hasErrors('titolo')}" th:errors="*{titolo}"></div>
+
+    <label for="annoPubblicazione">Anno di Pubblicazione</label>
+    <input type="number" id="annoPubblicazione" th:field="*{annoPubblicazione}" required>
+    <div th:if="${#fields.hasErrors('annoPubblicazione')}" th:errors="*{annoPubblicazione}"></div>
+
+    <label>Autori</label>
+    <div th:if="${erroreAutori}" th:text="${erroreAutori}"></div>
+    <div class="grid-libri">
+        <div class="card-libro" th:each="autore : ${autori}">
+            <img th:src="@{'/images/authors/' + ${#strings.replace(#strings.replace(#strings.toLowerCase(autore.nome + ' ' + autore.cognome), '.', ''), ' ', '_')} + '.jpg'}"
+                 th:alt="${autore.nome + ' ' + autore.cognome}">
+            <div class="content">
+                <p th:text="${autore.nome + ' ' + autore.cognome}"></p>
+                <input type="checkbox" th:value="${autore.id}" th:name="autoreIds">
+            </div>
+        </div>
+    </div>
+
+    <button type="submit">Salva Libro</button>
+</form>
+
+</body>
+</html>

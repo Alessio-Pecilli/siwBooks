@@ -17,22 +17,24 @@
     <div class="card" th:each="autore : ${autori}">
         
         <a th:href="@{'/autori/' + ${autore.id}}">
-            <img th:src="@{'/images/authors/' + ${#strings.replace(#strings.replace(#strings.toLowerCase(autore.nome + ' ' + autore.cognome), '.', ''), ' ', '_')} + '.jpg'}"
-                 th:alt="|Foto di ${autore.nome} ${autore.cognome}|" />
+            <img th:if="${autore.fotografia != null}" 
+     th:src="@{${autore.fotografia.path}}" 
+     th:alt="|Foto di ${autore.nome} ${autore.cognome}|" />
         </a>
+        
 
         <div class="info">
             <h2 th:text="${autore.nome + ' ' + autore.cognome}">Nome Cognome</h2>
 
             <p>
                 <strong>Nascita:</strong> 
-                <span th:text="${autore.dataNascita}">--</span>
-            </p>
+                <span th:text="${#temporals.format(autore.dataNascita, 'dd/MM/yyyy')}">--</span>
 
-            <p th:if="${autore.dataMorte != null}">
-                <strong>Morte:</strong> 
-                <span th:text="${autore.dataMorte}">--</span>
             </p>
+           <p th:if="${autore.dataMorte != null}">
+    <strong>Morte:</strong> 
+    <span th:text="${#temporals.format(autore.dataMorte, 'dd/MM/yyyy')}">--</span>
+</p>
 
             <p>
                 <strong>Nazionalità:</strong> 

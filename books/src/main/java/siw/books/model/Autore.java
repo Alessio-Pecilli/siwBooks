@@ -3,6 +3,8 @@ package siw.books.model;
 import java.time.LocalDate;
 import java.util.List;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -13,7 +15,10 @@ public class Autore {
 
     private String nome;
     private String cognome;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate dataNascita;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate dataMorte;
     private String nazionalita;
 

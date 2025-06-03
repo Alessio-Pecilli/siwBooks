@@ -26,6 +26,7 @@ h1 {
     overflow: hidden;
     width: 260px;
     transition: transform 0.2s ease;
+    border: 1px solid #e0d6c3;
 }
 
 .card:hover {
@@ -52,3 +53,70 @@ h1 {
     font-size: 0.9rem;
     color: #444;
 }
+
+.bottoni-autori {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 14px;
+}
+
+.bottoni-autori form {
+    margin: 0;
+}
+
+.bottoni-autori button {
+    width: 100px;
+    height: 36px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    font-size: 0.9em;
+    font-weight: bold;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    text-align: center;
+}
+
+.btn-danger {
+    background-color: #e84e4b;
+    color: white;
+}
+.btn-danger:hover {
+    background-color: #c62828;
+}
+
+.btn-edit {
+    background-color: #4494da;
+    color: white;
+}
+.btn-edit:hover {
+    background-color: #1565c0;
+}
+
+
+
+.contenitore-add {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+    width: 100%;
+}
+
+.btn-add {
+    background-color: #7c3aed;;
+    color: white;
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: background-color 0.3s;
+}
+.btn-add:hover {
+    background-color: #5b21b6;
+}
+
+

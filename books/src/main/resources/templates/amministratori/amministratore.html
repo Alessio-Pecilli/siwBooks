@@ -2,29 +2,29 @@
 <html lang="it" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Amministratore</title>
-    <link rel="stylesheet" th:href="@{/css/autori.css}">
+    <title>Area Amministratore</title>
+    <link rel="stylesheet" th:href="@{/css/auth.css}">
     <link rel="stylesheet" th:href="@{/css/navbar.css}">
 </head>
 <body>
 
-<div th:replace="~{fragments/navbar :: navbar}"></div>
-    
+<header class="header">
+    <div th:replace="~{fragments/navbar :: navbar}"></div>
 </header>
 
 <main class="main-content">
-    <h1>Benvenuto <span th:text="${utente.nome}"></span>!</h1>
+    <h1>Benvenuto Admin <span th:text="${utente.nome}">Nome</span>!</h1>
+
     <section class="user-info">
         <h2>Le tue informazioni</h2>
         <ul>
-            <li><strong>ID:</strong> <span th:text="${utente.id}"></span></li>
-            <li><strong>Nome:</strong> <span th:text="${utente.nome}"></span></li>
-            <li><strong>Cognome:</strong> <span th:text="${utente.cognome}"></span></li>
-            <li><strong>Email:</strong> <span th:text="${utente.email}"></span></li>
+            <li><strong>ID:</strong> <span th:text="${utente.id}">ID</span></li>
+            <li><strong>Nome:</strong> <span th:text="${utente.nome}">Nome</span></li>
+            <li><strong>Cognome:</strong> <span th:text="${utente.cognome}">Cognome</span></li>
+            <li><strong>Email:</strong> <span th:text="${utente.email}">Email</span></li>
         </ul>
     </section>
 </main>
-
 
 </body>
 </html>

@@ -17,8 +17,10 @@
 <div class="grid-libri">
         <div class="card-libro" th:each="libro : ${libri}">
             <a th:href="@{'/libri/' + ${libro.id}}">
-                <img th:src="@{'/images/books/' + ${#strings.replace(#strings.toLowerCase(libro.titolo), ' ', '_')} + '_1.jpg'}"
-                     th:alt="|Copertina di ${libro.titolo}|" />
+                <img th:if="${copertine.size() > libroStat.index}"
+     th:src="@{${copertine[libroStat.index]}}"
+     th:alt="|Copertina di ${libro.titolo}|" />
+
             </a>
             <div class="content">
                 <h2 th:text="${libro.titolo}">Titolo Libro</h2>
@@ -26,16 +28,23 @@
                 <div class="autori">
                     <span th:each="a : ${libro.autori}" th:text="${a.nome + ' ' + a.cognome + ' '}">Autore</span>
                 </div>
-                <form th:action="@{'/amministratori/libri/elimina/' + ${libro.id}}" method="post">
-                    <button type="submit" class="btn btn-danger">🗑️ Elimina libro</button>
-                </form>
-            </div>
+                <div class="bottoni-libro">
+    <div class="bottoni-libro">
+    <form th:action="@{'/amministratori/libri/elimina/' + ${libro.id}}" method="post">
+        
+        <button type="submit" class="btn btn-danger">Elimina</button>
+    </form>
+
+    <form th:action="@{'/amministratori/libri/modifica/' + ${libro.id}}" method="get">
+        <button type="submit" class="btn btn-edit">Modifica</button>
+    </form>
+</div>
+</div>
         </div>
     </div>
 
-    <!-- Pulsante aggiunta -->
-    <a href="/amministratori/libri/new" class="btn btn-primary" style="margin-top: 20px;">➕ Aggiungi Libro</a>
 </div>
+<a href="/amministratori/libri/new" class="btn btn-add">Aggiungi Libro</a>
 
 </body>
 </html>
