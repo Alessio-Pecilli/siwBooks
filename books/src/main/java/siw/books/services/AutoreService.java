@@ -2,10 +2,15 @@ package siw.books.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import jakarta.transaction.Transactional;
 import siw.books.model.Autore;
+import siw.books.model.Immagine;
 import siw.books.model.Libro;
 import siw.books.repository.AutoreRepository;
+import siw.books.repository.LibroRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,6 +22,10 @@ public class AutoreService {
 
     @Autowired
     private LibroService libroService;
+
+    @Autowired
+    private ImmagineService immagineService;
+
 
     public Iterable<Autore> findAll() {
         return autoreRepository.findAll();
@@ -39,18 +48,37 @@ public class AutoreService {
 
 
 
-    public void deleteById(Long autoreId) {
-    Optional<Autore> optional = autoreRepository.findById(autoreId);
-    if (optional.isPresent()) {
-        Autore autore = optional.get();
-        List<Libro> libri = libroService.findByAutore(autore);
+    @Transactional
+public void deleteById(Long id) {
+    Autore autore = autoreRepository.findById(id).orElseThrow();
 
-        for (Libro libro : libri) {
-            libro.getAutori().remove(autore);
-            libroService.save(libro); // salva il libro aggiornato senza quell'autore
-        }
-
-        autoreRepository.deleteById(autoreId);
+    // Rimuovi autore da tutti i libri associati
+    for (Libro libro : libroService.findByAutore(autore)) {
+        libro.getAutori().remove(autore);
+        libroService.save(libro);
     }
+
+    // Rimuovi autore da immagini associate
+    List<Immagine> immagini = immagineService.findByAutore(autore);
+    for (Immagine img : immagini) {
+        img.setAutore(null);
+        immagineService.save(img);
+    }
+
+    autoreRepository.delete(autore);
 }
+
+    
+
+
+public List<Autore> findTopAutori() {
+    List<Long> ids = autoreRepository.findTopAutoriIds();
+    Iterable<Autore> iterable = autoreRepository.findAllById(ids);
+    
+    List<Autore> autori = new ArrayList<>();
+    iterable.forEach(autori::add);
+
+    return autori;
+}
+
 }

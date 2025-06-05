@@ -70,8 +70,13 @@ h1 {
 }
 
 .anno, .autori {
+    margin: 0.4rem 0;
     font-size: 0.9rem;
-    color: var(--muted);
+    color: #444;
+}
+
+.anno strong, .autori strong {
+    font-weight: bold;
 }
 
 .btn {

@@ -5,6 +5,7 @@
     <title>Area Utente</title>
     <link rel="stylesheet" th:href="@{/css/auth.css}">
     <link rel="stylesheet" th:href="@{/css/navbar.css}">
+    <link rel="stylesheet" th:href="@{/css/libri.css}">
 </head>
 <body>
 
@@ -23,7 +24,42 @@
             <li><strong>Cognome:</strong> <span th:text="${utente.cognome}">Cognome</span></li>
             <li><strong>Email:</strong> <span th:text="${utente.email}">Email</span></li>
         </ul>
+        <form th:action="@{/logout}" method="post">
+    <button type="submit" class="btn btn-edit">Esci</button>
+</form>
+
     </section>
+
+    <section class="libri-recensiti">
+    <h2>Libri recensiti</h2>
+    <div class="container">
+    <div class="grid-libri">
+        <div class="card-libro" th:each="rec, recensioneStat : ${recensioniUtente}">
+            <a th:href="@{'/libri/' + ${rec.libro.id}}">
+                <img th:if="${copertineUtente.size() > recensioneStat.index}"
+                     th:src="@{${copertineUtente[recensioneStat.index]}}"
+                     th:alt="|Copertina di ${rec.libro.titolo}|" />
+            </a>
+            <div class="content">
+                <h2 th:text="${rec.libro.titolo}">Titolo Libro</h2>
+                
+                <p>
+                <strong>Voto:</strong>
+                <span th:each="i : ${#numbers.sequence(1, 5)}"
+          th:text="${i <= rec.voto ? '★' : '☆'}"
+          th:classappend="${i <= rec.voto ? 'piena' : 'vuota'}"
+          class="stellina">★</span>
+    <span th:text="| (${rec.voto} / 5) |">(0 / 5)</span>
+            </p>
+                <p><strong>Commento:</strong> <span th:text="${rec.testo}">Molto bello</span></p>
+            </div>
+        </div>
+    </div>
+    </div>
+</section>
+
+
+
 </main>
 
 </body>

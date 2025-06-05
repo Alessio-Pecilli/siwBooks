@@ -31,24 +31,7 @@ public class GlobalController {
 	    return user;
 	  }
 
-	@GetMapping("/profilo")
-public String showProfiloUtente(Authentication authentication, Model model) {
-    if (authentication != null) {
-        String username = authentication.getName();
-        Credentials credentials = credentialsService.getCredentialsByUsername(username);
-        String ruolo = credentials.getRole();
-        Utente utente = credentials.getUtente(); // prendi l'oggetto Utente
-
-        model.addAttribute("utente", utente); // lo passi al template
-
-        if (ruolo.equals(Credentials.ADMIN_ROLE)) {
-            return "amministratori/amministratore";
-        } else if (ruolo.equals(Credentials.DEFAULT_ROLE)) {
-            return "utentiRegistrati/utenteRegistrato";
-        }
-    }
-    return "redirect:/login";
-}
+	
 
 }
 

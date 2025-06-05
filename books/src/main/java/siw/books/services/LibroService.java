@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import siw.books.model.Autore;
 import siw.books.model.Libro;
 import siw.books.repository.LibroRepository;
+import siw.books.repository.RecensioneRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,6 +16,9 @@ public class LibroService {
 
     @Autowired
     private LibroRepository libroRepository;
+
+    @Autowired
+    private RecensioneRepository recensioneRepository;
 
     public List<Libro> findAll() {
         return libroRepository.findAll();
@@ -40,4 +44,12 @@ public class LibroService {
 public List<Libro> findAllById(List<Long> ids) {
     return this.libroRepository.findAllById(ids);
 }
+
+public List<Libro> findTopLibri() {
+    List<Long> ids = libroRepository.findTopLibriIds();
+    return libroRepository.findAllById(ids);
+}
+
+
+
 }

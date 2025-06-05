@@ -24,10 +24,16 @@
             <div class="content">
                 <h2 th:text="${libro.titolo}">Titolo Libro</h2>
                 
-                <p class="anno">Anno: <span th:text="${libro.annoPubblicazione}">2023</span></p>
-                <div class="autori">Autore:
-                    <span th:each="a : ${libro.autori}" th:text="${a.nome + ' ' + a.cognome + ' '}">Autore</span>
-                </div>
+                <p class="anno"><span th:text="${libro.annoPubblicazione}">2023</span></p>
+                <div class="autori">
+    <span th:if="${#lists.isEmpty(libro.autori)}">Nessun autore</span>
+
+    <span th:if="${#lists.size(libro.autori) == 1}">Autore: </span>
+    <span th:if="${#lists.size(libro.autori) > 1}">Autori: </span>
+
+    <span th:each="a : ${libro.autori}"
+          th:text="${a.nome + ' ' + a.cognome + ' '}">Autore</span>
+</div>
             </div>
         </div>
     </div>

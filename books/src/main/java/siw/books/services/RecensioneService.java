@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import siw.books.model.Recensione;
+import siw.books.model.Utente;
 import siw.books.repository.RecensioneRepository;
 
 @Service
@@ -29,6 +30,11 @@ public class RecensioneService {
     public Long getLibroIdFromRecensione(Long recensioneId) {
     return recensioneRepository.findLibroIdByRecensioneId(recensioneId);
 }
+
+public List<Recensione> findByAutore(Utente utente) {
+    return recensioneRepository.findByAutore(utente);
+}
+
 
 
 }

@@ -83,6 +83,7 @@ public String eliminaAutore(@PathVariable Long id) {
 @GetMapping("/amministratori/autori/new")
 public String formNewAutore(Model model) {
     model.addAttribute("autore", new Autore());
+    model.addAttribute("libri", libroService.findAll());
     return "amministratori/formAutore";
 }
 
@@ -113,8 +114,10 @@ public String saveAutore(
             System.out.println("Caricamento foto per l'autore: " + nome + " " + cognome);
             // Costruisci nome e path
             String nomeFile = (nome + "_" + cognome).toLowerCase().replace(" ", "_").replace(".", "") + ".jpg";
-            Path uploadPath = Paths.get("src/main/resources/static/images/authors/" + nomeFile);
-            Files.copy(foto.getInputStream(), uploadPath, StandardCopyOption.REPLACE_EXISTING);
+            System.out.println("Nome file: " + nomeFile);
+            Path uploadDir = Paths.get("books/src/main/resources/static/images/authors");
+            Path filePath = uploadDir.resolve(nomeFile);
+            Files.copy(foto.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
             System.out.println("Foto caricata con successo: " + nomeFile);
             // Crea oggetto Immagine e collega all'autore
             Immagine immagine = new Immagine();
@@ -146,10 +149,10 @@ public String mostraFormModifica(@PathVariable Long id, Model model) {
 }
 
 
-
 @PostMapping("/amministratori/autori/modifica/{id}")
 public String modificaAutore(@PathVariable Long id,
                              @ModelAttribute Autore autoreModificato,
+                             @RequestParam(name = "libriIds", required = false) List<Long> libroIds,
                              @RequestParam("foto") MultipartFile nuovaFoto,
                              Model model) throws IOException {
 
@@ -163,9 +166,29 @@ public String modificaAutore(@PathVariable Long id,
         autore.setDataNascita(autoreModificato.getDataNascita());
         autore.setDataMorte(autoreModificato.getDataMorte());
         autore.setNazionalita(autoreModificato.getNazionalita());
+        List<Libro> libroSelezionati = new ArrayList<>();
+    for (Long autoreId : libroIds) {
+        libroService.findById(autoreId).ifPresent(libroSelezionati::add);
+    }
+    autore.setLibri(libroSelezionati);
+    
+if (nuovaFoto != null && !nuovaFoto.isEmpty()) {
+        try {
+            
+            // Costruisci nome e path
+            String nomeFile = autore.getFotografia().getNomeFile();
+            Path uploadDir = Paths.get("books/src/main/resources/static/images/authors");
+            Path filePath = uploadDir.resolve(nomeFile);
+            Files.copy(nuovaFoto.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+            
 
-        
-        autoreService.save(autore);
+        } catch (IOException e) {
+            System.err.println("Eccezione: " + e.getMessage());
+            e.printStackTrace(); // o loggalo
+        }
+    }
+
+    autoreService.save(autore);
     }
 
     return "redirect:/amministratori/autori";
@@ -183,9 +206,9 @@ public String getAutore(@PathVariable Long id, Model model, Authentication authe
     Autore autore = optionalAutore.get();
     List<Libro> libri = libroService.findByAutore(autore);
     model.addAttribute("autore", autore);
+    model.addAttribute("media", autore.getMediaTotale());
     model.addAttribute("libri", libri);
-   
-
+    
     if (authentication != null) {
         String username = authentication.getName();
         Credentials credentials = credentialsService.getCredentialsByUsername(username);
@@ -198,9 +221,9 @@ public String getAutore(@PathVariable Long id, Model model, Authentication authe
     return "dettaglioAutore";
 }
 
-    @GetMapping("/amministratori/elimina/{id}")
+    @PostMapping("/amministratori/elimina/{id}")
     public String deleteAutore(@PathVariable Long id) {
         autoreService.deleteById(id);
-        return "redirect:/autori";
+        return "redirect:/amministratori/autori";
     }
 }

@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 
 import siw.books.model.Libro;
 import siw.books.model.Recensione;
+import siw.books.model.Utente;
 
 public interface RecensioneRepository extends CrudRepository<Recensione, Long> {
 
@@ -16,5 +17,7 @@ List<Recensione> findByLibroId(@Param("id") Long libroId);
 
 @Query("SELECT r.libro.id FROM Recensione r WHERE r.id = :recensioneId")
 Long findLibroIdByRecensioneId(@Param("recensioneId") Long recensioneId);
+
+List<Recensione> findByAutore(Utente autore);
 
 }

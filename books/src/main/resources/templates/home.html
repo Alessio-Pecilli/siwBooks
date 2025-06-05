@@ -4,18 +4,57 @@
     <meta charset="UTF-8">
     <title>SIW Books - Home</title>
     <link rel="stylesheet" th:href="@{/css/home.css}">
+    <link rel="stylesheet" th:href="@{/css/libri.css}">
+    <link rel="stylesheet" th:href="@{/css/autori.css}">
 </head>
 <body>
+
     <header>
         <h1>📚 SIW Books</h1>
         <p>Scopri autori, recensioni e libri da leggere</p>
     </header>
 
     <main class="buttons">
-        <a th:href="@{/libri}">Visualizza tutti i libri</a>
-        <a th:href="@{/autori}">Visualizza autori</a>
-        <a th:href="@{/login}">Accedi</a>
-        <a th:href="@{/register}">Registrati</a>
+        <a th:href="@{/libri}"> Visualizza Libri</a>
+        <a th:href="@{/autori}"> Visualizza Autori</a>
+        <a th:href="@{/login}"> Accedi</a>
+        <a th:href="@{/register}"> Registrati</a>
     </main>
+
+    <section class="top-section">
+    <div class="top-libri">
+        <h2 class="sezione-titolo-centrato">I libri più votati</h2>
+        <div class="grid-libri">
+            <div class="card-libro" th:each="libro, iter : ${topLibri}">
+                <a th:href="@{'/libri/' + ${libro.id}}">
+                    <img th:src="@{${copertineLibri[iter.index]}}"
+                         th:alt="|Copertina di ${libro.titolo}|" />
+                </a>
+                <div class="content">
+                    <h3 th:text="${libro.titolo}">Titolo</h3>
+                    <p th:text="'Anno: ' + ${libro.annoPubblicazione}">Anno</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="top-autori">
+        <h2>Gli autori più apprezzati</h2>
+        <div class="grid-libri">
+            <div class="card-libro" th:each="autore : ${topAutori}">
+                <a th:href="@{'/autori/' + ${autore.id}}">
+                    <img th:if="${autore.fotografia != null}"
+                         th:src="@{${autore.fotografia.path}}"
+                         th:alt="|Foto di ${autore.nome} ${autore.cognome}|" />
+                </a>
+                <div class="content">
+                    <h3 th:text="${autore.nome + ' ' + autore.cognome}">Autore</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
 </body>
 </html>

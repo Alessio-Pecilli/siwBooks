@@ -172,6 +172,49 @@ public String mostraFormModifica(@PathVariable Long id, Model model) {
     return "redirect:/amministratori/libri";
 }
 
+@PostMapping("/amministratori/libri/crea")
+public String creaLibro(@Valid @ModelAttribute Libro libro,
+                        BindingResult libroBinding,
+                        @RequestParam(name = "autoreIds", required = false) List<Long> autoreIds,
+                        Model model) {
+    return saveLibro(libro, libroBinding, autoreIds, model);
+}
+@PostMapping("/amministratori/libri/modifica/{id}")
+public String modificaLibro(@PathVariable Long id,
+                            @Valid @ModelAttribute Libro libroForm,
+                            BindingResult libroBinding,
+                            @RequestParam(name = "autoreIds", required = false) List<Long> autoreIds,
+                            Model model) {
+
+    Optional<Libro> libroOpt = libroService.findById(id);
+    if (libroOpt.isEmpty()) return "redirect:/amministratori/libri";
+
+    Libro libro = libroOpt.get(); // <--- oggetto esistente dal DB
+
+    boolean erroreAutori = (autoreIds == null || autoreIds.isEmpty());
+
+    if (libroBinding.hasErrors() || erroreAutori) {
+        model.addAttribute("libro", libroForm);
+        model.addAttribute("autori", autoreService.findAll());
+        if (erroreAutori)
+            model.addAttribute("erroreAutori", "Seleziona almeno un autore");
+        return "amministratori/formLibro";
+    }
+
+    // aggiorna solo i campi modificabili
+    libro.setTitolo(libroForm.getTitolo());
+    libro.setAnnoPubblicazione(libroForm.getAnnoPubblicazione());
+
+    List<Autore> autoriSelezionati = new ArrayList<>();
+    for (Long autoreId : autoreIds) {
+        autoreService.findById(autoreId).ifPresent(autoriSelezionati::add);
+    }
+    libro.setAutori(autoriSelezionati);
+
+    libroService.save(libro);
+    return "redirect:/amministratori/libri";
+}
+
     @GetMapping("/amministratori/libri/new")
     public String formNewLibro(Model model) {
         model.addAttribute("libro", new Libro());

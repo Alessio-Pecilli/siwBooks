@@ -22,7 +22,19 @@
 
         <div class="info">
             <h1 th:text="${autore.nome + ' ' + autore.cognome}">Nome Cognome</h1>
+            
+     <span class="stelle" th:if="${media != 0}">
+    <strong>Voto medio libri scritti:</strong>
+    <span th:each="i : ${#numbers.sequence(1, 5)}"
+          th:text="${i <= media ? '★' : '☆'}"
+          th:classappend="${i <= media ? 'piena' : 'vuota'}"
+          class="stellina">★</span>
+    <span th:text="| (${media} / 5) |">(0 / 5)</span>
+</span>
 
+<span class="stelle" th:if="${media == 0}">
+    <em>Nessun libro dell'autore ha ancora ricevuto voti.</em>
+</span>
             <p>
                 <strong>Nascita:</strong> 
                 <span th:text="${#temporals.format(autore.dataNascita, 'dd/MM/yyyy')}">--</span>

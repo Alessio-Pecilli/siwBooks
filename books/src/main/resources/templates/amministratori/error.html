@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="it" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Errore</title>
+    <link rel="stylesheet" th:href="@{/css/error.css}">
+    <link rel="stylesheet" th:href="@{/css/navbar.css}">
+</head>
+<body>
+
+<!-- Navbar -->
+<div th:replace="~{fragments/navbarAmministratori :: navbar}"></div>
+
+<main class="main-content">
+    <h1 th:text="'Errore ' + ${status} + ': ' + ${error}">Errore</h1>
+    
+    <a href="/" class="btn-home">Torna alla Home</a>
+</main>
+
+</body>
+</html>

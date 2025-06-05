@@ -91,4 +91,15 @@ public void setLibri(List<Libro> libri) {
     this.libri = libri;
 }
     
+public int getMediaTotale(){
+    int media = 0;
+    int count = 0;
+    for(Libro libro : libri) {
+        if(libro.getRecensioni() != null && !libro.getRecensioni().isEmpty()) {
+                media += libro.getMediaVotiRecensioni();
+                count++;
+        }
+    }
+    return count > 0 ? media / count : 0;
+}
 }

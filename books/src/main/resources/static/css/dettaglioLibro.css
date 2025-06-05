@@ -237,3 +237,67 @@ h2 {
     font-style: italic;
     color: #555;
 }
+
+
+
+.btn-edit {
+    background-color: #4494da;
+    color: white;
+}
+.btn-edit:hover {
+    background-color: #1565c0;
+}
+
+.bottoni-libro .btn {
+    width: 100px;
+    text-align: center;
+    padding: 6px 0;
+    font-size: 0.9em;
+    border-radius: 6px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+}
+
+.bottoni-libro button {
+    width: 100px;
+    height: 36px; /* imposta un’altezza fissa */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 0;
+    font-size: 0.9em;
+    font-weight: bold;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+}
+
+
+.btn {
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 0.9em;
+    font-weight: 600;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+.bottoni-libro {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 12px;
+}
+.btn-danger {
+    background-color: #e84e4b;
+    color: white;
+}
+.btn-danger:hover {
+    background-color: #c62828;
+}

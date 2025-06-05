@@ -18,13 +18,20 @@
         <img th:src="@{${copertina}}" alt="Copertina principale" />
         <div class="info">
             <h1 th:text="${libro.titolo}">Titolo</h1><span class="stelle">
+    
+    <span class="stelle" th:if="${!#lists.isEmpty(recensioni)}">
     <strong>Voto:</strong>
     <span th:each="i : ${#numbers.sequence(1, 5)}"
           th:text="${i <= media ? '★' : '☆'}"
           th:classappend="${i <= media ? 'piena' : 'vuota'}"
           class="stellina">★</span>
-          <span th:text="| (${media} / 5) |">(0 / 5)</span>
+    <span th:text="| (${media} / 5) |">(0 / 5)</span>
 </span>
+
+<span th:if="${#lists.isEmpty(recensioni)}">
+    <em>Questo libro non ha ancora recensioni.</em>
+</span>
+
             <p><strong>Anno di pubblicazione:</strong> <span th:text="${libro.annoPubblicazione}">Anno</span></p>
         </div>
     </div>
@@ -36,58 +43,52 @@
     </div>
 
     <!-- 👤 Autori -->
-    <div class="autori">
-        <h2>Autore/i</h2>
-        <div class="grid-autori">
-            <div class="card-autore" th:each="a : ${libro.autori}">
-                <a th:href="@{'/autori/' + ${a.id}}">
-                    <img th:if="${a.fotografia != null}" 
-     th:src="@{${a.fotografia.path}}" 
-     th:alt="|Foto di ${a.nome} ${a.cognome}|" />
-                </a>
-                <div class="info">
-                    <h3 th:text="${a.nome + ' ' + a.cognome}">Nome Cognome</h3>
-                    <p th:text="${a.nazionalita}">Nazionalità</p>
-                </div>
+   <div class="autori">
+    <h2 th:if="${#lists.isEmpty(libro.autori)}">Nessun autore</h2>
+    <h2 th:if="${#lists.size(libro.autori) == 1}">Autore</h2>
+    <h2 th:if="${#lists.size(libro.autori) > 1}">Autori</h2>
+
+    <div class="grid-autori" th:if="${!#lists.isEmpty(libro.autori)}">
+        <div class="card-autore" th:each="a : ${libro.autori}">
+            <a th:href="@{'/autori/' + ${a.id}}">
+                <img th:if="${a.fotografia != null}" 
+                     th:src="@{${a.fotografia.path}}" 
+                     th:alt="|Foto di ${a.nome} ${a.cognome}|" />
+            </a>
+            <div class="info">
+                <h3 th:text="${a.nome + ' ' + a.cognome}">Nome Cognome</h3>
+                <p th:text="${a.nazionalita}">Nazionalità</p>
             </div>
         </div>
     </div>
+</div>
 
-    <!-- ⭐ Recensioni -->
-    <h2>Recensioni</h2>
-    <div class="recensioni">
-        <div class="card-recensione" th:each="rec : ${recensioni}">
-            <h3 th:text="${rec.titolo}">Titolo recensione</h3>
+<h2>Recensioni</h2>
+<div class="recensioni">
 
-            <p>
-                <strong>Voto:</strong>
-                <span th:each="i : ${#numbers.sequence(1, rec.voto)}" class="stellina piena">★</span>
-                <span th:each="i : ${#numbers.sequence(1, 5 - rec.voto)}" class="stellina vuota">☆</span>
-                <span th:text="| (${rec.voto}/5) |">(5/5)</span>
-            </p>
+    <p th:if="${#lists.isEmpty(recensioni)}"><em>Ancora nessuna recensione</em></p>
 
-            <p>
-                <strong>Autore:</strong>
-                <span th:if="${rec.autore != null}" th:text="${rec.autore.nome + ' ' + rec.autore.cognome}">Nome Cognome</span>
-                <em th:if="${rec.autore == null}">Utente anonimo</em>
-            </p>
+    <div class="card-recensione" th:each="rec : ${recensioni}" th:unless="${#lists.isEmpty(recensioni)}">
+        <h3 th:text="${rec.titolo}">Titolo recensione</h3>
 
-            <p th:text="${rec.testo}">Testo recensione</p>
+        <p>
+            <strong>Voto:</strong>
+            <span th:each="i : ${#numbers.sequence(1, 5)}"
+                  th:text="${i <= rec.voto ? '★' : '☆'}"
+                  th:classappend="${i <= rec.voto ? 'piena' : 'vuota'}"
+                  class="stellina">★</span>
+            <span th:text="| (${rec.voto} / 5) |">(0 / 5)</span>
+        </p>
 
-        <form th:if="${rec.autore.id == utente.id}"
-              th:action="@{'/utenti/recensioni/elimina/' + ${rec.id}}"
+        <p>
+            <strong>Autore:</strong>
+            <span th:if="${rec.autore != null}" th:text="${rec.autore.nome + ' ' + rec.autore.cognome}">Nome Cognome</span>
+            <em th:if="${rec.autore == null}">Utente anonimo</em>
+        </p>
 
-              method="post"
-              style="margin-left: 10px;">
-            <button type="submit"
-                    title="Elimina"
-                    onclick="return confirm('Eliminare questa recensione?')"
-                    style="background: none; border: none; font-size: 18px; cursor: pointer; color: #ff5c5c;">
-                🗑
-            </button>
-        </form>
-        </div>
+        <p th:text="${rec.testo}">Testo recensione</p>
     </div>
+</div>
 
     <!-- 📝 Form recensione -->
     <h2>Aggiungi una recensione</h2>

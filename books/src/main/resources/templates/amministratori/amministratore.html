@@ -9,7 +9,7 @@
 <body>
 
 <header class="header">
-    <div th:replace="~{fragments/navbar :: navbar}"></div>
+    <div th:replace="~{fragments/navbarAmministratori:: navbar}"></div>
 </header>
 
 <main class="main-content">
@@ -23,6 +23,9 @@
             <li><strong>Cognome:</strong> <span th:text="${utente.cognome}">Cognome</span></li>
             <li><strong>Email:</strong> <span th:text="${utente.email}">Email</span></li>
         </ul>
+        <form th:action="@{/logout}" method="post">
+    <button type="submit" class="btn btn-edit">Esci</button>
+</form>
     </section>
 </main>
 

@@ -22,6 +22,20 @@
         <div class="info">
             <h1 th:text="${autore.nome + ' ' + autore.cognome}">Nome Cognome</h1>
             
+    <span class="stelle" th:if="${media != 0}">
+    <strong>Voto medio libri scritti:</strong>
+    <span th:each="i : ${#numbers.sequence(1, 5)}"
+          th:text="${i <= media ? '★' : '☆'}"
+          th:classappend="${i <= media ? 'piena' : 'vuota'}"
+          class="stellina">★</span>
+    <span th:text="| (${media} / 5) |">(0 / 5)</span>
+</span>
+
+<span class="stelle" th:if="${media == 0}">
+    <em>Nessun libro dell'autore ha ancora ricevuto voti.</em>
+</span>
+
+
 
             <p>
                 <strong>Nascita:</strong> 
@@ -39,11 +53,11 @@
             <!-- Azioni -->
             <div class="azioni">
                 <form th:action="@{'/amministratori/eliminaAutore/' + ${autore.id}}" method="post" style="display:inline-block;">
-                    <button type="submit" class="btn btn-danger">🗑️ Elimina</button>
+                    <button type="submit" class="btn btn-danger">Elimina</button>
                 </form>
 
-                <a th:href="@{'/amministratori/autori/modifica/' + ${autore.id}}" class="btn btn-secondary" style="margin-left: 10px;">
-                    ✏️ Modifica
+                <a th:href="@{'/amministratori/autori/modifica/' + ${autore.id}}" class="btn btn-edit" style="margin-left: 10px;">
+                    Modifica
                 </a>
             </div>
         </div>

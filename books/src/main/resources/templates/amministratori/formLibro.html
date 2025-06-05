@@ -6,9 +6,9 @@
     <link rel="stylesheet" th:href="@{/css/form.css}">
 </head>
 <body>
-<h1>Inserisci un Nuovo Libro</h1>
+<h1 th:text="${libro.id != null} ? 'Modifica Libro' : 'Inserisci un Nuovo Libro'"></h1>
 
-<form th:action="@{/amministratori/libri/save}" method="post" enctype="multipart/form-data" th:object="${libro}">
+<form th:action="${libro.id != null} ? @{/amministratori/libri/modifica/{id}(id=${libro.id})} : @{/amministratori/libri/crea}" th:object="${libro}" method="post">
 
     <label for="titolo">Titolo</label>
     <input type="text" id="titolo" th:field="*{titolo}" required>
@@ -26,11 +26,15 @@
                  th:alt="${autore.nome + ' ' + autore.cognome}">
             <div class="content">
                 <p th:text="${autore.nome + ' ' + autore.cognome}"></p>
-                <input type="checkbox" th:value="${autore.id}" th:name="autoreIds">
+               <input type="checkbox"
+       th:value="${autore.id}"
+       th:name="autoreIds"
+       th:checked="${libro.autori.contains(autore)}">
+
             </div>
         </div>
     </div>
-
+    
     <button type="submit">Salva Libro</button>
 </form>
 
