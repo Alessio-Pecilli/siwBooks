@@ -24,13 +24,15 @@
             <li><strong>Cognome:</strong> <span th:text="${utente.cognome}">Cognome</span></li>
             <li><strong>Email:</strong> <span th:text="${utente.email}">Email</span></li>
         </ul>
-        <form th:action="@{/logout}" method="post">
-    <button type="submit" class="btn btn-edit">Esci</button>
+        <form class="logout-form" th:action="@{/logout}" method="post">
+    <button type="submit" class="logout-button">Esci</button>
 </form>
+    
+</div>
 
     </section>
 
-    <section class="libri-recensiti">
+    <section class="libri-recensiti" th:if="${not #lists.isEmpty(recensioniUtente)}">
     <h2>Libri recensiti</h2>
     <div class="container">
     <div class="grid-libri">

@@ -103,6 +103,10 @@
         </p>
 
         <p th:text="${rec.testo}">Testo recensione</p>
+        <form th:action="@{'/amministratori/recensioni/elimina/' + ${rec.id}}" method="post">
+            <button type="submit" class="btn btn-danger">Elimina</button>
+        </form>
+    </form>
     </div>
 </div>
 
