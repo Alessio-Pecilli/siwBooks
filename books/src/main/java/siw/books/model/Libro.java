@@ -15,7 +15,7 @@ public class Libro {
     private Integer annoPubblicazione;
 
     @OneToMany(mappedBy = "libro", cascade = CascadeType.ALL)
-    private List<Immagine> immagini;
+    private List<Immagine> immagini = new ArrayList<>();
 
     @ManyToMany
 @JoinTable(

@@ -1,6 +1,8 @@
 package siw.books.services;
 
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,12 +21,16 @@ public class ImmagineService {
         return immagineRepository.findAll();
     }
 
-    public Immagine findById(Long id) {
-        return immagineRepository.findById(id).orElse(null);
+    public Optional<Immagine> findById(Long id) {
+        return immagineRepository.findById(id);
     }
 
     public List<Immagine> findByAutore(Autore autore) {
         return immagineRepository.findByAutore(autore);
+    }
+
+    public void deleteById(Long id) {
+        immagineRepository.deleteById(id);
     }
 
     @Transactional
