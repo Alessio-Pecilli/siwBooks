@@ -13,4 +13,6 @@ public interface AutoreRepository extends CrudRepository<Autore, Long> {
                "ORDER BY AVG(r.voto) DESC " +
                "LIMIT 2", nativeQuery = true)
 List<Long> findTopAutoriIds();
+List<Autore> findByNomeContainingIgnoreCaseOrCognomeContainingIgnoreCase(String nome, String cognome);
+
 }

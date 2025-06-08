@@ -194,6 +194,21 @@ if (nuovaFoto != null && !nuovaFoto.isEmpty()) {
     return "redirect:/amministratori/autori";
 }
 
+@GetMapping("/autori/ricerca")
+public String cercaAutori(@RequestParam("nome") String nome, Model model, Authentication authentication) {
+    List<Autore> autoriTrovati = autoreService.findByNomeOrCognome(nome);
+    model.addAttribute("autori", autoriTrovati);
+   if (authentication != null) {
+        String username = authentication.getName();
+        Credentials credentials = credentialsService.getCredentialsByUsername(username);
+        if (credentials.getRole().equals(Credentials.ADMIN_ROLE)) {
+            return "amministratori/autori";
+        }
+    }
+
+    return "autori";
+}
+
 
 
     @GetMapping({"/autori/{id}", "/amministratori/autori/{id}"})

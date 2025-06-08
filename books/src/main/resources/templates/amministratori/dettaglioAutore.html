@@ -52,11 +52,11 @@
 
             <!-- Azioni -->
             <div class="azioni">
-                <form th:action="@{'/amministratori/eliminaAutore/' + ${autore.id}}" method="post" style="display:inline-block;">
+                <form th:action="@{'/amministratori/eliminaAutore/' + ${autore.id}}" method="post" >
                     <button type="submit" class="btn btn-danger">Elimina</button>
                 </form>
 
-                <a th:href="@{'/amministratori/autori/modifica/' + ${autore.id}}" class="btn btn-edit" style="margin-left: 10px;">
+                <a th:href="@{'/amministratori/autori/modifica/' + ${autore.id}}" class="btn btn-edit" >
                     Modifica
                 </a>
             </div>

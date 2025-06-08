@@ -13,6 +13,14 @@
 
 <h1>Autori</h1>
 
+<form class="search-bar" th:action="@{/autori/ricerca}" method="get">
+    <input type="text" name="nome" placeholder="Cerca autore per nome o cognome..." />
+    <button type="submit">Cerca</button>
+</form>
+<h1 th:if="${#lists.isEmpty(autori)}">
+    Nessun autore trovato.
+    </h1>
+
 <div class="container">
     <div class="card" th:each="autore : ${autori}">
         

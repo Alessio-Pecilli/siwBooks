@@ -18,6 +18,8 @@ public interface LibroRepository extends JpaRepository<Libro, Long> {
                "ORDER BY AVG(r.voto) DESC " +
                "LIMIT 2", nativeQuery = true)
 List<Long> findTopLibriIds();
+List<Libro> findByTitoloContainingIgnoreCase(String titolo);
+
 
     
 }

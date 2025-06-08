@@ -51,5 +51,8 @@ public List<Libro> findTopLibri() {
 }
 
 
+public List<Libro> findByTitoloContainingIgnoreCase(String titolo) {
+    return libroRepository.findByTitoloContainingIgnoreCase(titolo);
+}
 
 }

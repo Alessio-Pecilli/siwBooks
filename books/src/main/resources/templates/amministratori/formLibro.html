@@ -9,7 +9,7 @@
 
 <h1 th:text="${libro.id != null} ? 'Modifica Libro' : 'Inserisci un Nuovo Libro'"></h1>
 
-<div class="card" th:if="${libro != null}">
+<div class="card" th:if="${libro.titolo != null}">
     <img th:src="@{${copertina}}" alt="Copertina principale" />
 
     <div class="info">
@@ -52,12 +52,15 @@
 
 
     <label>Autori</label>
-    <div th:if="${erroreAutori}" th:text="${erroreAutori}" style="color: red;"></div>
+    <div th:if="${erroreAutori}" th:text="${erroreAutori}"></div>
 
     <div class="grid-libri">
         <div class="card-libro" th:each="autore : ${autori}">
-            <img th:src="@{'/images/authors/' + ${#strings.replace(#strings.replace(#strings.toLowerCase(autore.nome + ' ' + autore.cognome), '.', ''), ' ', '_')} + '.jpg'}"
-                 th:alt="${autore.nome + ' ' + autore.cognome}">
+            <a th:href="@{'/autori/' + ${autore.id}}">
+            <img th:if="${autore.fotografia != null}" 
+     th:src="@{${autore.fotografia.path}}" 
+     th:alt="|Foto di ${autore.nome} ${autore.cognome}|" />
+        </a>
             <div class="content">
                 <p th:text="${autore.nome + ' ' + autore.cognome}"></p>
                 <input type="checkbox"

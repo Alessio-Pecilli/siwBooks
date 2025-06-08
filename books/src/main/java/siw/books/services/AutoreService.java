@@ -81,4 +81,9 @@ public List<Autore> findTopAutori() {
     return autori;
 }
 
+public List<Autore> findByNomeOrCognome(String nome) {
+    return autoreRepository.findByNomeContainingIgnoreCaseOrCognomeContainingIgnoreCase(nome, nome);
+}
+
+
 }

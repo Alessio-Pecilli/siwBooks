@@ -12,7 +12,15 @@
 
 <h1>Libri</h1>
 <div class="container">
-<div class="grid-libri">
+
+    <form class="search-bar" th:action="@{/libri/ricerca}" method="get">
+    <input type="text" name="titolo" placeholder="Cerca per titolo..." />
+    <button type="submit">Cerca</button>
+    <h1 th:if="${#lists.isEmpty(libri)}">
+    Nessun libro trovato.
+    </h1>
+</form>
+<div class="grid-libri" >
         <div class="card-libro" th:each="libro : ${libri}">
             <a th:href="@{'/libri/' + ${libro.id}}">
                 <img th:if="${copertine.size() > libroStat.index}"
