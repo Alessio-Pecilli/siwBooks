@@ -40,6 +40,7 @@
                 <strong>Anno di pubblicazione:</strong>
                 <span th:text="${libro.annoPubblicazione}">Anno</span>
             </p>
+            <div class="bottoni-autori">
             <form th:action="@{'/amministratori/libri/elimina/' + ${libro.id}}" method="post">
         
         <button type="submit" class="btn btn-danger">Elimina</button>
@@ -48,6 +49,7 @@
     <form th:action="@{'/amministratori/libri/modifica/' + ${libro.id}}" method="get">
         <button type="submit" class="btn btn-edit">Modifica</button>
     </form>
+    </div>
         </div>
     </div>
 

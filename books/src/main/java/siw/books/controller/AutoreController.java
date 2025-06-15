@@ -97,13 +97,14 @@ public String saveAutore(
         @RequestParam(value = "foto", required = false) MultipartFile foto,
         @RequestParam(value = "libriIds", required = false) List<Long> libriIds
 ) {
+    System.out.println("Creazione nuovo autore: " + nome + " " + cognome);
     Autore autore = new Autore();
     autore.setNome(nome);
     autore.setCognome(cognome);
     autore.setDataNascita(dataNascita);
     autore.setDataMorte(dataMorte);
     autore.setNazionalita(nazionalita);
-
+    
     if (libriIds != null) {
         List<Libro> libri = libroService.findAllById(libriIds);
         autore.setLibri(libri);
@@ -129,6 +130,11 @@ public String saveAutore(
             System.err.println("Eccezione: " + e.getMessage());
             e.printStackTrace(); // o loggalo
         }
+    }else{
+        Immagine immagine = new Immagine();
+            immagine.setNomeFile("default.jpg");
+            immagine.setPath("/images/authors/default.jpg");
+            autore.setFotografia(immagine);
     }
 
     autoreService.save(autore);

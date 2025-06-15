@@ -319,7 +319,7 @@ public String saveLibro(@RequestParam("titolo") String titolo,
                          @RequestParam(name = "altreImmagini", required = false) MultipartFile[] altreImmagini,
                         Model model) throws IOException {
 
-    // Controllo autori
+    
     if (autoreIds == null || autoreIds.isEmpty()) {
         model.addAttribute("erroreAutori", "Seleziona almeno un autore");
         model.addAttribute("autori", autoreService.findAll());
@@ -358,7 +358,11 @@ public String saveLibro(@RequestParam("titolo") String titolo,
         System.out.println("Copertina salvata: " + immagine.getPath());
         immagine.setLibro(libro);
     } else {
-        System.out.println("Nessun file copertina caricato.");
+        Immagine immagine = new Immagine();
+        immagine.setNomeFile("default.jpg");
+            immagine.setPath("/images/books/default.jpg");
+        libro.getImmagini().add(immagine); 
+        immagine.setLibro(libro);
     }
     System.out.println("Fine salvataggio copertina.");
     } catch (Exception e) {

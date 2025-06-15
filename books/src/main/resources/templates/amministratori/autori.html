@@ -13,7 +13,7 @@
 
 <h1>Autori</h1>
 
-<div class="container">
+
 
    
 <form class="search-bar" th:action="@{/autori/ricerca}" method="get">
@@ -23,6 +23,7 @@
 <h1 th:if="${#lists.isEmpty(autori)}">
     Nessun autore trovato.
     </h1>
+<div class="container">
     <div class="card" th:each="autore : ${autori}">
 
         <!-- Link al dettaglio -->
@@ -36,7 +37,7 @@
         <div class="info">
             <h2 th:text="${autore.nome + ' ' + autore.cognome}">Nome Cognome</h2>
 
-            <p>
+            <p th:if="${autore.dataNascita != null}">
                 <strong>Nascita:</strong> 
                 <span th:text="${#temporals.format(autore.dataNascita, 'dd/MM/yyyy')}">--</span>
 
@@ -45,7 +46,7 @@
     <strong>Morte:</strong> 
     <span th:text="${#temporals.format(autore.dataMorte, 'dd/MM/yyyy')}">--</span>
 </p>
-            <p>
+            <p th:if="${autore.nazionalita != null && autore.nazionalita != ''}">
                 <strong>Nazionalità:</strong> 
                 <span th:text="${autore.nazionalita}">--</span>
             </p>

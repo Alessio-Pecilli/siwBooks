@@ -35,7 +35,7 @@
             <p><strong>Nazionalità:</strong> <span th:text="${autore.nazionalita}">--</span></p>
         </div>
     </div>
-
+    
     <!-- FORM -->
     <form method="post"
           th:action="${autore.id != null} ? @{/amministratori/autori/modifica/{id}(id=${autore.id})} : @{/amministratori/autori/crea}"
@@ -49,7 +49,7 @@
         <input type="text" th:field="*{cognome}" required>
 
         <label>Data di nascita:</label>
-        <input type="date" th:field="*{dataNascita}">
+        <input type="date" th:field="*{dataNascita}" required>
 
         <label>Data di morte:</label>
         <input type="date" th:field="*{dataMorte}">
@@ -58,7 +58,7 @@
         <input type="text" th:field="*{nazionalita}">
 
         <label>Foto (JPG):</label>
-        <input type="file" name="foto" accept="image/jpeg,image/png,image/jpg">
+        <input type="file" name="foto" accept="image/jpeg,image/png,image/jpg" >
 
 
         <label>Libri scritti:</label>

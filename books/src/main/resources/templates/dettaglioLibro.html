@@ -54,7 +54,7 @@
 
     <div class="grid-autori" th:if="${!#lists.isEmpty(libro.autori)}">
         <div class="card-autore" th:each="a : ${libro.autori}">
-            <a th:href="@{'/amministratori/autori/' + ${a.id}}">
+            <a th:href="@{'/autori/' + ${a.id}}">
                 <img th:if="${a.fotografia != null}" 
                      th:src="@{${a.fotografia.path}}" 
                      th:alt="|Foto di ${a.nome} ${a.cognome}|" />

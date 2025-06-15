@@ -45,7 +45,7 @@
     <input type="number" id="annoPubblicazione" name="annoPubblicazione" th:value="${libro.annoPubblicazione}" required>
 
     <label for="copertina">Copertina</label>
-    <input type="file" id="copertina" name="copertina" accept="image/*">
+    <input type="file" id="copertina" name="copertina" accept="image/*" >
 
     <label for="altreImmagini">Aggiungi ulteriori Immagini</label>
     <input type="file" id="altreImmagini" name="altreImmagini" multiple accept="image/*">
@@ -73,7 +73,7 @@
 
     <button type="submit">Salva Libro</button>
 
-    <!-- Fuori dal form di salvataggio -->
+   
 <div class="galleria">
     <div class="immagine"
          th:each="img, stat : ${libro.immagini}"
