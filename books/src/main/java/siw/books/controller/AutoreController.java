@@ -215,6 +215,61 @@ public String cercaAutori(@RequestParam("nome") String nome, Model model, Authen
     return "autori";
 }
 
+@GetMapping("/autori/ordina/nome")
+public String ordinaAutoriNome(Model model, Authentication authentication) {
+    List<Autore> autoriTrovati = (List<Autore>) autoreService.findAll();
+    autoriTrovati.sort((a1, a2) -> a1.getNome().compareToIgnoreCase(a2.getNome()));
+    model.addAttribute("autori", autoriTrovati);
+   if (authentication != null) {
+        String username = authentication.getName();
+        Credentials credentials = credentialsService.getCredentialsByUsername(username);
+        if (credentials.getRole().equals(Credentials.ADMIN_ROLE)) {
+            return "amministratori/autori";
+        }
+    }
+
+    return "autori";
+}
+
+@GetMapping("/autori/ordina/anno")
+public String ordinaAutoriAnno(Model model, Authentication authentication) {
+    List<Autore> autoriTrovati = (List<Autore>) autoreService.findAll();
+    autoriTrovati.sort((a1, a2) -> {
+        if (a1.getDataNascita() == null && a2.getDataNascita() == null) return 0;
+        if (a1.getDataNascita() == null) return 1;
+        if (a2.getDataNascita() == null) return -1;
+        return a1.getDataNascita().compareTo(a2.getDataNascita());
+    });
+    model.addAttribute("autori", autoriTrovati);
+   if (authentication != null) {
+        String username = authentication.getName();
+        Credentials credentials = credentialsService.getCredentialsByUsername(username);
+        if (credentials.getRole().equals(Credentials.ADMIN_ROLE)) {
+            return "amministratori/autori";
+        }
+    }
+
+    return "autori";
+}
+
+@GetMapping("/autori/ordina/voto")
+public String ordinaAutoriVoto(Model model, Authentication authentication) {
+    List<Autore> autoriTrovati = (List<Autore>) autoreService.findAll();
+    autoriTrovati.sort((a1, a2) -> Double.compare(a2.getMediaTotale(), a1.getMediaTotale()));
+    model.addAttribute("autori", autoriTrovati);
+   if (authentication != null) {
+        String username = authentication.getName();
+        Credentials credentials = credentialsService.getCredentialsByUsername(username);
+        if (credentials.getRole().equals(Credentials.ADMIN_ROLE)) {
+            return "amministratori/autori";
+        }
+    }
+
+    return "autori";
+}
+
+
+
 
 
     @GetMapping({"/autori/{id}", "/amministratori/autori/{id}"})

@@ -18,6 +18,11 @@
     <input type="text" name="titolo" placeholder="Cerca per titolo..." />
     <button type="submit">Cerca</button>
     </form>
+<div class="ordina-bar">
+    <a th:href="@{/libri/ordina/titolo(titolo='')}" class="ordina-btn">Ordina per Titolo</a>
+    <a th:href="@{/libri/ordina/anno(titolo='')}" class="ordina-btn">Ordina per Anno di pubblicazione</a>
+    <a th:href="@{/libri/ordina/voti(titolo='')}" class="ordina-btn">Ordina per Media voti</a>
+</div>
 
     <h1 th:if="${#lists.isEmpty(libri)}" >
     Nessun libro trovato.

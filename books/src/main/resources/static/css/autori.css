@@ -154,3 +154,29 @@ h1 {
 .search-bar button:hover {
     background-color: #e67327;
 }
+
+.ordina-bar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.ordina-btn {
+    padding: 10px 24px;
+    background-color: #ff914d;
+    color: white;
+    border: none;
+    border-radius: 30px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    font-size: 1rem;
+    text-decoration: none;
+    box-shadow: 0 2px 6px var(--shadow);
+}
+
+.ordina-btn:hover {
+    background-color: #e67327;
+}

@@ -17,6 +17,11 @@
     <input type="text" name="nome" placeholder="Cerca autore per nome o cognome..." />
     <button type="submit">Cerca</button>
 </form>
+<div class="ordina-bar">
+    <a th:href="@{/autori/ordina/nome(nome='')}" class="ordina-btn">Ordina per Nome</a>
+    <a th:href="@{/autori/ordina/anno(nome='')}" class="ordina-btn">Ordina per Anno di nascita</a>
+    <a th:href="@{/autori/ordina/voto(nome='')}" class="ordina-btn">Ordina per Media voti</a>
+</div>
 <h1 th:if="${#lists.isEmpty(autori)}">
     Nessun autore trovato.
     </h1>
