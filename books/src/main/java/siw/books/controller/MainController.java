@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-
+import org.springframework.security.core.Authentication;
 import siw.books.model.Autore;
 import siw.books.model.Immagine;
 import siw.books.model.Libro;
@@ -23,7 +23,7 @@ public class MainController {
     private AutoreService autoreService;
 
     @GetMapping("/")
-    public String home(Model model) {
+    public String home(Model model,Authentication authentication) {
         List<Libro> topLibri = libroService.findTopLibri();
         List<Autore> topAutori = autoreService.findTopAutori();
 
@@ -41,7 +41,9 @@ public class MainController {
     model.addAttribute("topLibri", topLibri);
     model.addAttribute("copertineLibri", copertineLibri);
     model.addAttribute("topAutori", topAutori);
+    boolean isAuthenticated = authentication != null && authentication.isAuthenticated();
+    model.addAttribute("isAuthenticated", isAuthenticated);
 
-        return "home"; // o "index" se il tuo file si chiama così
+        return "home"; 
     }
 }
