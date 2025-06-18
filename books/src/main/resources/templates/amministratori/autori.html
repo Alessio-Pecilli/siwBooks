@@ -2,7 +2,8 @@
 <html lang="it" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Gestione Autori</title>
+    <title>Autori</title>
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
     <link rel="stylesheet" th:href="@{/css/autori.css}">
     <link rel="stylesheet" th:href="@{/css/navbar.css}">
 </head>
@@ -24,8 +25,8 @@
 
 <div class="ordina-bar">
     <a th:href="@{/autori/ordina/nome(nome='')}" class="ordina-btn">Ordina per Nome</a>
-    <a th:href="@{/autori/ordina/anno(nome='')}" class="ordina-btn">Ordina per Anno</a>
-    <a th:href="@{/autori/ordina/voto(nome='')}" class="ordina-btn">Ordina per Voto</a>
+    <a th:href="@{/autori/ordina/anno(nome='')}" class="ordina-btn">Ordina per Anno di nascita</a>
+    <a th:href="@{/autori/ordina/voto(nome='')}" class="ordina-btn">Ordina per Media voti</a>
 </div>
 <h1 th:if="${#lists.isEmpty(autori)}">
     Nessun autore trovato.

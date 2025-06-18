@@ -108,7 +108,8 @@ public String saveAutore(
     if (libriIds != null) {
         List<Libro> libri = libroService.findAllById(libriIds);
         autore.setLibri(libri);
-    }
+    }else {
+        autore.setLibri(new ArrayList<>());}
 
      if (foto != null && !foto.isEmpty()) {
         try {
@@ -173,16 +174,22 @@ public String modificaAutore(@PathVariable Long id,
         autore.setDataMorte(autoreModificato.getDataMorte());
         autore.setNazionalita(autoreModificato.getNazionalita());
         List<Libro> libroSelezionati = new ArrayList<>();
+        if (libroIds == null) libroIds = new ArrayList<>();
+
     for (Long autoreId : libroIds) {
         libroService.findById(autoreId).ifPresent(libroSelezionati::add);
     }
+    if(libroIds == null || libroIds.isEmpty()) {
+        libroSelezionati = new ArrayList<>();}
     autore.setLibri(libroSelezionati);
     
 if (nuovaFoto != null && !nuovaFoto.isEmpty()) {
         try {
             
             // Costruisci nome e path
-            String nomeFile = autore.getFotografia().getNomeFile();
+            Immagine foto = autore.getFotografia();
+            String nomeFile = (foto != null) ? foto.getNomeFile() : "default.jpg"; // oppure null, o "" se vuoi saltarlo
+
             Path uploadDir = Paths.get("books/src/main/resources/static/images/authors");
             Path filePath = uploadDir.resolve(nomeFile);
             Files.copy(nuovaFoto.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);

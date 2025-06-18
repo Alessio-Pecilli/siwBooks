@@ -11,7 +11,9 @@ import siw.books.repository.AutoreRepository;
 import siw.books.repository.LibroRepository;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -74,11 +76,20 @@ public void deleteById(Long id) {
 public List<Autore> findTopAutori() {
     List<Long> ids = autoreRepository.findTopAutoriIds();
     Iterable<Autore> iterable = autoreRepository.findAllById(ids);
-    
-    List<Autore> autori = new ArrayList<>();
-    iterable.forEach(autori::add);
-
-    return autori;
+    Map<Long, Autore> mappaAutori = new HashMap<>();
+    for (Autore a : iterable) {
+        if (a != null) {
+            mappaAutori.put(a.getId(), a);
+        }
+    }
+    List<Autore> autoriOrdinati = new ArrayList<>();
+    for (Long id : ids) {
+        Autore autore = mappaAutori.get(id);
+        if (autore != null) {
+            autoriOrdinati.add(autore);
+        }
+    }
+    return autoriOrdinati;
 }
 
 public List<Autore> findByNomeOrCognome(String nome) {
