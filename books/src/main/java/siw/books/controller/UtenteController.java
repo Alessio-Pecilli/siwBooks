@@ -28,8 +28,10 @@ public class UtenteController {
     private CredentialsService credentialsService;
 
     @GetMapping("/utente/{id}")
-    public String getPaginaUtente(@PathVariable("id") Long id, Model model) {
-        Utente utente = this.utenteService.getUtente(id);
+    public String getPaginaUtente(@PathVariable("id") Long id, Model model,Authentication authentication) {
+        String username = authentication.getName();
+        Credentials credentials = credentialsService.getCredentialsByUsername(username);
+        Utente utente = this.utenteService.getUtente(credentials.getUtente().getId());
         model.addAttribute("utente", utente);
         System.out.println("Utente ID: " + utente.getId());
         System.out.println("Nome: " + utente.getNome());
@@ -47,12 +49,14 @@ public class UtenteController {
     }
     model.addAttribute("copertineUtente", copertine);
         // Aggiungi altre informazioni se presenti nella classe Utente
-        return "utentiRegistrati/utenteRegistrato.html"; // crea questo file
+        return "utentiRegistrati/utenteRegistrato.html"; 
     }
 
     @GetMapping("/amministratori/{id}")
-    public String getPaginaAdmin(@PathVariable("id") Long id, Model model) {
-        Utente admin = this.utenteService.getUtente(id);
+    public String getPaginaAdmin(@PathVariable("id") Long id, Model model, Authentication authentication) {
+        String username = authentication.getName();
+        Credentials credentials = credentialsService.getCredentialsByUsername(username);
+        Utente admin = this.utenteService.getUtente(credentials.getUtente().getId());
         model.addAttribute("utente", admin);
         return "amministratori/amministratore.html"; 
     }
