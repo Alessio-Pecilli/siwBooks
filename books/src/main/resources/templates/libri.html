@@ -14,15 +14,15 @@
 <h1>Libri</h1>
 
 
-     <form class="search-bar" th:action="@{/libri/ricerca}" method="get">
+     <<form class="search-bar" th:action="@{/libri/filtra}" method="get">
         
     <input type="text" name="titolo" placeholder="Cerca per titolo..." />
     <button type="submit">Cerca</button>
     </form>
 <div class="ordina-bar">
-    <a th:href="@{/libri/ordina/titolo(titolo='')}" class="ordina-btn">Ordina per Titolo</a>
-    <a th:href="@{/libri/ordina/anno(titolo='')}" class="ordina-btn">Ordina per Anno di pubblicazione</a>
-    <a th:href="@{/libri/ordina/voti(titolo='')}" class="ordina-btn">Ordina per Media voti</a>
+    <a th:href="@{/libri/filtra(ordina='titolo')}" class="ordina-btn">Ordina per Titolo</a>
+    <a th:href="@{/libri/filtra(ordina='anno')}" class="ordina-btn">Ordina per Anno di pubblicazione</a>
+    <a th:href="@{/libri/filtra(ordina='voti')}" class="ordina-btn">Ordina per Media voti</a>
 </div>
 
     <h1 th:if="${#lists.isEmpty(libri)}" >

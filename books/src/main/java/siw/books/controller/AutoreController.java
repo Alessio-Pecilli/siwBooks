@@ -128,6 +128,10 @@ public String saveAutore(
             autore.setFotografia(immagine);
 
         } catch (IOException e) {
+            Immagine immagine = new Immagine();
+            immagine.setNomeFile("default.jpg");
+            immagine.setPath("/images/authors/default.jpg");
+            autore.setFotografia(immagine);
             System.err.println("Eccezione: " + e.getMessage());
             e.printStackTrace(); // o loggalo
         }
@@ -207,47 +211,33 @@ if (nuovaFoto != null && !nuovaFoto.isEmpty()) {
     return "redirect:/amministratori/autori";
 }
 
-@GetMapping("/autori/ricerca")
-public String cercaAutori(@RequestParam("nome") String nome, Model model, Authentication authentication) {
-    List<Autore> autoriTrovati = autoreService.findByNomeOrCognome(nome);
-    model.addAttribute("autori", autoriTrovati);
-   if (authentication != null) {
-        String username = authentication.getName();
-        Credentials credentials = credentialsService.getCredentialsByUsername(username);
-        if (credentials.getRole().equals(Credentials.ADMIN_ROLE)) {
-            return "amministratori/autori";
-        }
-    }
-
-    return "autori";
-}
-
-@GetMapping("/autori/ordina/nome")
-public String ordinaAutoriNome(Model model, Authentication authentication) {
-    List<Autore> autoriTrovati = (List<Autore>) autoreService.findAll();
-    autoriTrovati.sort((a1, a2) -> a1.getNome().compareToIgnoreCase(a2.getNome()));
-    model.addAttribute("autori", autoriTrovati);
-   if (authentication != null) {
-        String username = authentication.getName();
-        Credentials credentials = credentialsService.getCredentialsByUsername(username);
-        if (credentials.getRole().equals(Credentials.ADMIN_ROLE)) {
-            return "amministratori/autori";
-        }
-    }
-
-    return "autori";
-}
-
-@GetMapping("/autori/ordina/anno")
-public String ordinaAutoriAnno(Model model, Authentication authentication) {
-    List<Autore> autoriTrovati = (List<Autore>) autoreService.findAll();
-    autoriTrovati.sort((a1, a2) -> {
+@GetMapping("/autori/filtra")
+public String filtraAutori(@RequestParam(required = false) String nome,
+                           @RequestParam(required = false) String ordina,
+                           Model model, Authentication authentication) {
+    List<Autore> autori;
+    
+    if (nome != null && !nome.isEmpty()) {
+        // Se c'è la ricerca, la priorità va a quella
+        autori = autoreService.findByNomeOrCognome(nome);
+    } else if ("nome".equalsIgnoreCase(ordina)) {
+        autori = (List<Autore>) autoreService.findAll();
+        autori.sort((a1, a2) -> a1.getNome().compareToIgnoreCase(a2.getNome()));
+    } else if ("anno".equalsIgnoreCase(ordina)) {
+        autori = (List<Autore>) autoreService.findAll();
+        autori.sort((a1, a2) -> {
         if (a1.getDataNascita() == null && a2.getDataNascita() == null) return 0;
         if (a1.getDataNascita() == null) return 1;
         if (a2.getDataNascita() == null) return -1;
         return a1.getDataNascita().compareTo(a2.getDataNascita());
     });
-    model.addAttribute("autori", autoriTrovati);
+    } else if ("voto".equalsIgnoreCase(ordina)) {
+        autori = (List<Autore>) autoreService.findAll();
+        autori.sort((a1, a2) -> Double.compare(a2.getMediaTotale(), a1.getMediaTotale()));
+    } else {
+        autori = (List<Autore>) autoreService.findAll(); // Nessun filtro, mostra tutto
+    }
+    model.addAttribute("autori", autori);
    if (authentication != null) {
         String username = authentication.getName();
         Credentials credentials = credentialsService.getCredentialsByUsername(username);
@@ -255,27 +245,8 @@ public String ordinaAutoriAnno(Model model, Authentication authentication) {
             return "amministratori/autori";
         }
     }
-
     return "autori";
 }
-
-@GetMapping("/autori/ordina/voto")
-public String ordinaAutoriVoto(Model model, Authentication authentication) {
-    List<Autore> autoriTrovati = (List<Autore>) autoreService.findAll();
-    autoriTrovati.sort((a1, a2) -> Double.compare(a2.getMediaTotale(), a1.getMediaTotale()));
-    model.addAttribute("autori", autoriTrovati);
-   if (authentication != null) {
-        String username = authentication.getName();
-        Credentials credentials = credentialsService.getCredentialsByUsername(username);
-        if (credentials.getRole().equals(Credentials.ADMIN_ROLE)) {
-            return "amministratori/autori";
-        }
-    }
-
-    return "autori";
-}
-
-
 
 
 

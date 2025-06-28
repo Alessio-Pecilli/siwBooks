@@ -42,6 +42,7 @@ public class MainController {
     model.addAttribute("copertineLibri", copertineLibri);
     model.addAttribute("topAutori", topAutori);
     boolean isAuthenticated = authentication != null && authentication.isAuthenticated();
+    
     model.addAttribute("isAuthenticated", isAuthenticated);
 
         return "home"; 

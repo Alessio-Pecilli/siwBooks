@@ -1,1 +1,11 @@
-{}
+{
+  "workbench.editor.enablePreview": false,
+  "workbench.editor.enablePreviewFromQuickOpen": false,
+  "workbench.editor.showTabs": true,
+  "workbench.editor.tabCloseButton": "right",
+  "workbench.editor.openSideBySideDirection": "right",
+  "workbench.editor.highlightModifiedTabs": true,
+  "workbench.startupEditor": "none",
+  "files.autoSave": "onWindowChange",
+  "editor.minimap.enabled": true
+}

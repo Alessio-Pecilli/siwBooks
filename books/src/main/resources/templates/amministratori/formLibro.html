@@ -74,15 +74,10 @@
 
     <button type="submit">Salva Libro</button>
 
-   
 <div class="galleria">
-    <div class="immagine"
-         th:each="img, stat : ${libro.immagini}"
-         th:if="${stat.index > 0}">
+    <div class="card-img" th:each="img, stat : ${libro.immagini}" th:if="${stat.index > 0}">
         <img th:src="@{${img.path}}" th:alt="'Immagine aggiuntiva'" />
-
-        <form th:action="@{/amministratori/libri/rimuoviImmagine/{idImg}(idImg=${img.id})}"
-              method="post" style="margin-top: 0.5rem;">
+        <form th:action="@{/amministratori/libri/rimuoviImmagine/{idImg}(idImg=${img.id})}" method="post">
             <input type="hidden" name="_method" value="delete"/>
             <button type="submit">Elimina</button>
         </form>

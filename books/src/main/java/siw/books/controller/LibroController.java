@@ -409,13 +409,32 @@ public String saveLibro(@RequestParam("titolo") String titolo,
         return "redirect:/amministratori/libri";
     }
 
-    @GetMapping("/libri/ricerca")
-public String cercaLibri(@RequestParam("titolo") String titolo, Model model,Authentication authentication) {
-    List<Libro> tuttiLibri = libroService.findByTitoloContainingIgnoreCase(titolo);
+
+@GetMapping("/libri/filtra")
+public String filtraLibri(@RequestParam(required = false) String titolo,
+                           @RequestParam(required = false) String ordina,
+                           Model model, Authentication authentication) {
+    List<Libro> libri;
     
-    model.addAttribute("libri", tuttiLibri);
+    if (titolo != null && !titolo.isEmpty()) {
+        // Se c'è la ricerca, la priorità va a quella
+        libri = libroService.findByTitoloContainingIgnoreCase(titolo);
+    } else if ("titolo".equalsIgnoreCase(ordina)) {
+        libri =  libroService.findAll();
+        libri.sort((l1, l2) -> l1.getTitolo().compareToIgnoreCase(l2.getTitolo()));
+    } else if ("anno".equalsIgnoreCase(ordina)) {
+        libri =  libroService.findAll();
+        libri.sort((l1, l2) -> Integer.compare(l1.getAnnoPubblicazione(), l2.getAnnoPubblicazione()));
+    } else if ("voto".equalsIgnoreCase(ordina)) {
+        libri =  libroService.findAll();
+       libri.sort((l1, l2) -> Integer.compare(l1.getMediaVotiRecensioni(), l2.getMediaVotiRecensioni()));
+    java.util.Collections.reverse(libri);
+    } else {
+        libri =  libroService.findAll();
+    }
+   model.addAttribute("libri", libri);
     List<String> pathsImmagini = new LinkedList<>();
-    for (Libro libro : tuttiLibri) {
+    for (Libro libro : libri) {
         if(libro.getImmagini() == null || libro.getImmagini().isEmpty()) {
             System.out.println("Libro senza immagini: " + libro.getTitolo());
             continue; // Skip libri without images
@@ -426,7 +445,7 @@ public String cercaLibri(@RequestParam("titolo") String titolo, Model model,Auth
     }
     model.addAttribute("copertine", pathsImmagini);
     
-    for (Libro libro : tuttiLibri) {
+    for (Libro libro : libri) {
         float mediaRecensioni = libro.getMediaVotiRecensioni();
         model.addAttribute("media_" + libro.getId(), mediaRecensioni);
     }
@@ -442,122 +461,8 @@ public String cercaLibri(@RequestParam("titolo") String titolo, Model model,Auth
         }
     }
 
-    return "libri";
-}
+    return "libri";}
 
-@GetMapping("/libri/ordina/titolo")
-public String ordinaLibriNome(Model model,Authentication authentication) {
-    List<Libro> tuttiLibri = libroService.findAll();
-    tuttiLibri.sort((l1, l2) -> l1.getTitolo().compareToIgnoreCase(l2.getTitolo()));
-    
-    model.addAttribute("libri", tuttiLibri);
-    List<String> pathsImmagini = new LinkedList<>();
-    for (Libro libro : tuttiLibri) {
-        if(libro.getImmagini() == null || libro.getImmagini().isEmpty()) {
-            System.out.println("Libro senza immagini: " + libro.getTitolo());
-            continue; // Skip libri without images
-        }else{pathsImmagini.add(libro.getImmagini().get(0).getPath());
-        System.out.println("Path immagine: " + libro.getImmagini().get(0).getPath());
-        }
-        
-    }
-    model.addAttribute("copertine", pathsImmagini);
-    
-    for (Libro libro : tuttiLibri) {
-        float mediaRecensioni = libro.getMediaVotiRecensioni();
-        model.addAttribute("media_" + libro.getId(), mediaRecensioni);
-    }
-    
-
-    if (authentication != null) {
-        String username = authentication.getName();
-        Credentials credentials = credentialsService.getCredentialsByUsername(username);
-        String ruolo = credentials.getRole();
-
-        if (ruolo.equals(Credentials.ADMIN_ROLE)) {
-            return "amministratori/libri";
-        }
-    }
-
-    return "libri";
-}
-    
-
-@GetMapping("/libri/ordina/anno")
-public String ordinaLibriAnno(Model model,Authentication authentication) {
-    List<Libro> tuttiLibri = libroService.findAll();
-    tuttiLibri.sort((l1, l2) -> Integer.compare(l1.getAnnoPubblicazione(), l2.getAnnoPubblicazione()));
-    
-    model.addAttribute("libri", tuttiLibri);
-    List<String> pathsImmagini = new LinkedList<>();
-    for (Libro libro : tuttiLibri) {
-        if(libro.getImmagini() == null || libro.getImmagini().isEmpty()) {
-            System.out.println("Libro senza immagini: " + libro.getTitolo());
-            continue; // Skip libri without images
-        }else{pathsImmagini.add(libro.getImmagini().get(0).getPath());
-        System.out.println("Path immagine: " + libro.getImmagini().get(0).getPath());
-        }
-        
-    }
-    model.addAttribute("copertine", pathsImmagini);
-    
-    for (Libro libro : tuttiLibri) {
-        float mediaRecensioni = libro.getMediaVotiRecensioni();
-        model.addAttribute("media_" + libro.getId(), mediaRecensioni);
-    }
-    
-
-    if (authentication != null) {
-        String username = authentication.getName();
-        Credentials credentials = credentialsService.getCredentialsByUsername(username);
-        String ruolo = credentials.getRole();
-
-        if (ruolo.equals(Credentials.ADMIN_ROLE)) {
-            return "amministratori/libri";
-        }
-    }
-
-    return "libri";
-}
-
-@GetMapping("/libri/ordina/voti")
-public String ordinaLibriVoti(Model model,Authentication authentication) {
-    List<Libro> tuttiLibri = libroService.findAll();
-    tuttiLibri.sort((l1, l2) -> Integer.compare(l1.getMediaVotiRecensioni(), l2.getMediaVotiRecensioni()));
-    java.util.Collections.reverse(tuttiLibri);
-    model.addAttribute("libri", tuttiLibri);
-    List<String> pathsImmagini = new LinkedList<>();
-    for (Libro libro : tuttiLibri) {
-        if(libro.getImmagini() == null || libro.getImmagini().isEmpty()) {
-            System.out.println("Libro senza immagini: " + libro.getTitolo());
-            continue; // Skip libri without images
-        }else{pathsImmagini.add(libro.getImmagini().get(0).getPath());
-        System.out.println("Path immagine: " + libro.getImmagini().get(0).getPath());
-        }
-        
-    }
-    model.addAttribute("copertine", pathsImmagini);
-    
-    for (Libro libro : tuttiLibri) {
-        float mediaRecensioni = libro.getMediaVotiRecensioni();
-        model.addAttribute("media_" + libro.getId(), mediaRecensioni);
-    }
-    
-
-    if (authentication != null) {
-        String username = authentication.getName();
-        Credentials credentials = credentialsService.getCredentialsByUsername(username);
-        String ruolo = credentials.getRole();
-
-        if (ruolo.equals(Credentials.ADMIN_ROLE)) {
-            return "amministratori/libri";
-        }
-    }
-
-    return "libri";
-}
-    
-    
 
 
     @PostMapping({"/amministratori/recensioni/elimina/{id}", "/utenti/recensioni/elimina/{id}"})

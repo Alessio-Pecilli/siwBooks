@@ -12,11 +12,12 @@ import siw.books.model.Utente;
 
 public interface RecensioneRepository extends CrudRepository<Recensione, Long> {
 
-    @Query("SELECT r FROM Recensione r LEFT JOIN FETCH r.autore WHERE r.libro.id = :id")
-List<Recensione> findByLibroId(@Param("id") Long libroId);
+List<Recensione> findByLibroId(Long id);
 
-@Query("SELECT r.libro.id FROM Recensione r WHERE r.id = :recensioneId")
-Long findLibroIdByRecensioneId(@Param("recensioneId") Long recensioneId);
+@Query("SELECT r.libro.id FROM Recensione r WHERE r.id = :id")
+Long findLibroIdByRecensioneId(@Param("id") Long id);
+
+
 
 List<Recensione> findByAutore(Utente autore);
 

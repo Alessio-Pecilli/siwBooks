@@ -14,13 +14,13 @@
         <h1>📚 SIW Books</h1>
         <p>Scopri autori, recensioni e libri da leggere</p>
     </header>
-
+    
     <main class="buttons">
     <a th:href="@{/libri}">Visualizza Libri</a>
     <a th:href="@{/autori}">Visualizza Autori</a>
 
     
-        <a th:if="${!isAuthenticated}" th:href="@{/login}">Accedi</a>
+    <a th:if="${!isAuthenticated}" th:href="@{/login}">Accedi</a>
     <a th:if="${!isAuthenticated}" th:href="@{/register}">Registrati</a>
     <a th:if="${isAuthenticated}" th:href="@{/profilo}">Profilo</a>
     <a th:if="${isAuthenticated}" th:href="@{/logout}">Esci</a>

@@ -9,7 +9,7 @@ import siw.books.model.Autore;
 import siw.books.model.Libro;
 
 public interface LibroRepository extends JpaRepository<Libro, Long> {
-    // puoi aggiungere query custom se ti servono
+   
     public List<Libro> findByAutoriContaining(Autore autore);
     
     @Query(value = "SELECT r.libro_id " +
