@@ -13,6 +13,7 @@ public interface AutoreRepository extends CrudRepository<Autore, Long> {
                "ORDER BY AVG(r.voto) DESC " +
                "LIMIT 2", nativeQuery = true)
 List<Long> findTopAutoriIds();
-List<Autore> findByNomeContainingIgnoreCaseOrCognomeContainingIgnoreCase(String nome, String cognome);
+@Query("SELECT a FROM Autore a WHERE LOWER(CONCAT(a.nome, ' ', a.cognome)) LIKE LOWER(CONCAT('%', :searchTerm, '%'))")
+List<Autore> findAuthorByString(@Param("searchTerm") String searchTerm);
 
 }
