@@ -180,12 +180,24 @@ public String modificaAutore(@PathVariable Long id,
         List<Libro> libroSelezionati = new ArrayList<>();
         if (libroIds == null) libroIds = new ArrayList<>();
 
-    for (Long autoreId : libroIds) {
-        libroService.findById(autoreId).ifPresent(libroSelezionati::add);
+    for (Libro libro : autore.getLibri()) {
+    List<Autore> autoriLibro = libro.getAutori();
+    autoriLibro.remove(autore);
+}
+
+// Crea la nuova lista dei libri selezionati
+List<Libro> nuoviLibri = new ArrayList<>();
+for (Long libroId : libroIds) {
+    Optional<Libro> libroOpt = libroService.findById(libroId);
+    if (libroOpt.isPresent()) {
+        Libro libro = libroOpt.get();
+        libro.getAutori().add(autore); // aggiorna dal lato proprietario
+        nuoviLibri.add(libro);
     }
-    if(libroIds == null || libroIds.isEmpty()) {
-        libroSelezionati = new ArrayList<>();}
-    autore.setLibri(libroSelezionati);
+}
+
+// Assegna i nuovi libri all'autore
+autore.setLibri(nuoviLibri);
     
 if (nuovaFoto != null && !nuovaFoto.isEmpty()) {
         try {
@@ -210,7 +222,6 @@ if (nuovaFoto != null && !nuovaFoto.isEmpty()) {
 
     return "redirect:/amministratori/autori";
 }
-
 @GetMapping("/autori/filtra")
 public String filtraAutori(@RequestParam(required = false) String nome,
                            @RequestParam(required = false) String ordina,
