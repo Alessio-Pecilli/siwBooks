@@ -42,6 +42,10 @@ L’amministratore utilizza il sistema per modificare o eliminare un autore esis
 **Attore primario**: Amministratore  
 L’amministratore utilizza il sistema per eliminare una qualsiasi recensione presente. Il sistema consente di selezionare una recensione e rimuoverla. **Non è consentita la modifica da parte dell’amministratore.**
 
+### UC11 – **Visualizzazione recensione personale**  
+**Attore primario**: Utente registrato  
+L’utente registrato utilizza il sistema per vedere le proprie recensioni inserite.
+
 ---
 
 ### Riepilogo Casi d'Uso
