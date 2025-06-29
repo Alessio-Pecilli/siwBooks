@@ -9,7 +9,7 @@
 </head>
 <body>
 
-<!-- Navbar pubblica -->
+
 <div th:replace="~{fragments/navbar :: navbar}"></div>
 
 <div class="container">
@@ -41,13 +41,13 @@
         </div>
     </div>
 
-    <!-- 🖼️ Galleria immagini -->
+    
     <h2>Ulteriori immagini</h2>
     <div class="galleria">
         <img th:each="path : ${copertine}" th:src="@{${path}}" th:alt="'Copertina aggiuntiva'" />
     </div>
 
-    <!-- 👤 Autori -->
+    
     <div class="autori">
     <h2 th:if="${#lists.isEmpty(libro.autori)}">Nessun autore</h2>
     <h2 th:if="${#lists.size(libro.autori) == 1}">Autore</h2>
@@ -70,7 +70,7 @@
 
 
 
-    <!-- ⭐ Recensioni -->
+
     <h2>Recensioni</h2>
 <div class="recensioni">
 

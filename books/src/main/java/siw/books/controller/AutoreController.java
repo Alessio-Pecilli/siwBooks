@@ -68,11 +68,11 @@ public String eliminaAutore(@PathVariable Long id) {
     if (optionalAutore.isPresent()) {
         Autore autore = optionalAutore.get();
         
-        // Rimuove l'autore da tutti i libri prima dell'eliminazione
+        
         List<Libro> libri = libroService.findByAutore(autore);
         for (Libro libro : libri) {
             libro.getAutori().remove(autore);
-            libroService.save(libro); // salva le modifiche sul libro
+            libroService.save(libro); 
         }
 
         autoreService.deleteById(id);
@@ -114,14 +114,14 @@ public String saveAutore(
      if (foto != null && !foto.isEmpty()) {
         try {
             System.out.println("Caricamento foto per l'autore: " + nome + " " + cognome);
-            // Costruisci nome e path
+            
             String nomeFile = (nome + "_" + cognome).toLowerCase().replace(" ", "_").replace(".", "") + ".jpg";
             System.out.println("Nome file: " + nomeFile);
             Path uploadDir = Paths.get("books/src/main/resources/static/images/authors");
             Path filePath = uploadDir.resolve(nomeFile);
             Files.copy(foto.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
             System.out.println("Foto caricata con successo: " + nomeFile);
-            // Crea oggetto Immagine e collega all'autore
+           
             Immagine immagine = new Immagine();
             immagine.setNomeFile(nomeFile);
             immagine.setPath("/images/authors/" + nomeFile);
@@ -133,7 +133,7 @@ public String saveAutore(
             immagine.setPath("/images/authors/default.jpg");
             autore.setFotografia(immagine);
             System.err.println("Eccezione: " + e.getMessage());
-            e.printStackTrace(); // o loggalo
+            e.printStackTrace(); 
         }
     }else{
         Immagine immagine = new Immagine();
@@ -171,13 +171,13 @@ public String modificaAutore(@PathVariable Long id,
     if (opt.isPresent()) {
         Autore autore = opt.get();
 
-        // Aggiorna campi base
+        
         autore.setNome(autoreModificato.getNome());
         autore.setCognome(autoreModificato.getCognome());
         autore.setDataNascita(autoreModificato.getDataNascita());
         autore.setDataMorte(autoreModificato.getDataMorte());
         autore.setNazionalita(autoreModificato.getNazionalita());
-        List<Libro> libroSelezionati = new ArrayList<>();
+        
         if (libroIds == null) libroIds = new ArrayList<>();
 
     for (Libro libro : autore.getLibri()) {
@@ -185,26 +185,24 @@ public String modificaAutore(@PathVariable Long id,
     autoriLibro.remove(autore);
 }
 
-// Crea la nuova lista dei libri selezionati
 List<Libro> nuoviLibri = new ArrayList<>();
 for (Long libroId : libroIds) {
     Optional<Libro> libroOpt = libroService.findById(libroId);
     if (libroOpt.isPresent()) {
         Libro libro = libroOpt.get();
-        libro.getAutori().add(autore); // aggiorna dal lato proprietario
+        libro.getAutori().add(autore); 
         nuoviLibri.add(libro);
     }
 }
 
-// Assegna i nuovi libri all'autore
 autore.setLibri(nuoviLibri);
     
 if (nuovaFoto != null && !nuovaFoto.isEmpty()) {
         try {
             
-            // Costruisci nome e path
+            
             Immagine foto = autore.getFotografia();
-            String nomeFile = (foto != null) ? foto.getNomeFile() : "default.jpg"; // oppure null, o "" se vuoi saltarlo
+            String nomeFile = (foto != null) ? foto.getNomeFile() : "default.jpg"; 
 
             Path uploadDir = Paths.get("books/src/main/resources/static/images/authors");
             Path filePath = uploadDir.resolve(nomeFile);
@@ -213,7 +211,7 @@ if (nuovaFoto != null && !nuovaFoto.isEmpty()) {
 
         } catch (IOException e) {
             System.err.println("Eccezione: " + e.getMessage());
-            e.printStackTrace(); // o loggalo
+            e.printStackTrace(); 
         }
     }
 
@@ -229,7 +227,7 @@ public String filtraAutori(@RequestParam(required = false) String nome,
     List<Autore> autori;
     
     if (nome != null && !nome.isEmpty()) {
-        // Se c'è la ricerca, la priorità va a quella
+        
         autori = autoreService.findByNomeOrCognome(nome);
     } else if ("nome".equalsIgnoreCase(ordina)) {
         autori = (List<Autore>) autoreService.findAll();
@@ -246,7 +244,7 @@ public String filtraAutori(@RequestParam(required = false) String nome,
         autori = (List<Autore>) autoreService.findAll();
         autori.sort((a1, a2) -> Double.compare(a2.getMediaTotale(), a1.getMediaTotale()));
     } else {
-        autori = (List<Autore>) autoreService.findAll(); // Nessun filtro, mostra tutto
+        autori = (List<Autore>) autoreService.findAll(); 
     }
     model.addAttribute("autori", autori);
    if (authentication != null) {

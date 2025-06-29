@@ -31,7 +31,7 @@ public enum HttpStatusError {
     public String getDescription() {
         return description;
     }
-    // Metodo per ottenere la descrizione dato il codice
+    
     public static String getDescriptionByCode(Long code) {
         for (HttpStatusError status : HttpStatusError.values()) {
             if (status.getCode().equals(code)) {
@@ -40,7 +40,7 @@ public enum HttpStatusError {
         }
         return "Unknown HTTP status code";
     }
-    // Metodo per ottenere l'enum dato il codice
+    
     public static HttpStatusError getByCode(Long code) {
         for (HttpStatusError status : HttpStatusError.values()) {
             if (status.getCode().equals(code)) {

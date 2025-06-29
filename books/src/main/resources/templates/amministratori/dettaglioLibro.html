@@ -9,12 +9,12 @@
 </head>
 <body>
 
-<!-- Navbar -->
+
 <div th:replace="~{fragments/navbarAmministratori :: navbar}"></div>
 
 <div class="container">
 
-    <!-- 📚 Card libro principale -->
+    
     <div class="card">
         <img th:src="@{${copertina}}" alt="Copertina principale" />
 
@@ -54,13 +54,13 @@
         </div>
     </div>
 
-    <!-- 🖼️ Galleria immagini -->
+   
     <h2>Ulteriori immagini</h2>
     <div class="galleria">
     <img th:each="path : ${copertine}" th:src="@{${path}}" th:alt="'Copertina aggiuntiva'" />
 </div>
 
-    <!-- 👤 Autori -->
+    
     <div class="autori">
     <h2 th:if="${#lists.isEmpty(libro.autori)}">Nessun autore</h2>
     <h2 th:if="${#lists.size(libro.autori) == 1}">Autore</h2>

@@ -28,7 +28,7 @@ public class MainController {
         List<Autore> topAutori = autoreService.findTopAutori();
 
         List<String> copertineLibri = new ArrayList<>();
-        // Assicurati che topLibri non sia null o vuoto prima di accedere a getImmagini()
+        
         for (Libro libro : topLibri) {
         if (!libro.getImmagini().isEmpty()) {
             copertineLibri.add(libro.getImmagini().get(0).getPath());

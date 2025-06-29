@@ -48,7 +48,7 @@ public class UtenteController {
         copertine.add(path);
     }
     model.addAttribute("copertineUtente", copertine);
-        // Aggiungi altre informazioni se presenti nella classe Utente
+        
         return "utentiRegistrati/utenteRegistrato.html"; 
     }
 
@@ -69,7 +69,7 @@ public String showProfiloUtente(Authentication authentication, Model model) {
         String ruolo = credentials.getRole();
         Utente utente = credentials.getUtente(); 
 
-        model.addAttribute("utente", utente); // lo passi al template
+        model.addAttribute("utente", utente); 
 
         if (ruolo.equals(Credentials.ADMIN_ROLE)) {
             return "redirect:amministratori/" + utente.getId();

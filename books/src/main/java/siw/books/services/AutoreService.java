@@ -41,7 +41,7 @@ public class AutoreService {
     if (autore.getLibri() != null) {
         for (Libro libro : autore.getLibri()) {
             if (!libro.getAutori().contains(autore)) {
-                libro.getAutori().add(autore);  // Aggiorna il lato opposto della relazione
+                libro.getAutori().add(autore);  
             }
         }
     }
@@ -54,13 +54,13 @@ public class AutoreService {
 public void deleteById(Long id) {
     Autore autore = autoreRepository.findById(id).orElseThrow();
 
-    // Rimuovi autore da tutti i libri associati
+    
     for (Libro libro : libroService.findByAutore(autore)) {
         libro.getAutori().remove(autore);
         libroService.save(libro);
     }
 
-    // Rimuovi autore da immagini associate
+    
     List<Immagine> immagini = immagineService.findByAutore(autore);
     for (Immagine img : immagini) {
         img.setAutore(null);

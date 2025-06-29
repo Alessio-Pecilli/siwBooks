@@ -62,7 +62,7 @@ public String mostraLibri(Model model, Authentication authentication) {
     for (Libro libro : tuttiLibri) {
         if(libro.getImmagini() == null || libro.getImmagini().isEmpty()) {
             System.out.println("Libro senza immagini: " + libro.getTitolo());
-            continue; // Skip libri without images
+            continue; 
         }else{pathsImmagini.add(libro.getImmagini().get(0).getPath());
         System.out.println("Path immagine: " + libro.getImmagini().get(0).getPath());
         }
@@ -100,17 +100,17 @@ public String aggiungiRecensione(@PathVariable Long id,
     if (optionalLibro.isPresent()) {
         Libro libro = optionalLibro.get();
 
-        // Recupera username dell'utente loggato
+        
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String username = null;
         if (principal instanceof UserDetails) {
             username = ((UserDetails) principal).getUsername();
         }
 
-        // Recupera l'oggetto Utente associato
+        
         Utente autore = credentialsService.getCredentialsByUsername(username).getUtente();
 
-        // Collega i dati
+        
         recensione.setId(null);
         recensione.setLibro(libro);
         recensione.setAutore(autore); 
@@ -135,7 +135,7 @@ public String mostraSingoloLibro(@PathVariable Long id, Model model, Authenticat
     model.addAttribute("recensioni", libro.getRecensioni());
     int mediaVoto = libro.getMediaVotiRecensioni();
     model.addAttribute("media", mediaVoto);
-    // Gestione immagini
+    
     List<Immagine> immagini = libro.getImmagini();
     List<String> pathsImmagini = new LinkedList<>();
 
@@ -153,7 +153,7 @@ public String mostraSingoloLibro(@PathVariable Long id, Model model, Authenticat
 
     model.addAttribute("copertine", pathsImmagini);
 
-    // Gestione autenticazione
+    
     if (authentication != null) {
         String username = authentication.getName();
         Credentials credentials = credentialsService.getCredentialsByUsername(username);
@@ -168,7 +168,7 @@ public String mostraSingoloLibro(@PathVariable Long id, Model model, Authenticat
         }
     }
 
-    // Per utenti non loggati
+    
     model.addAttribute("autori", libro.getAutori());
     return "dettaglioLibro";
 }
@@ -220,7 +220,8 @@ public String modificaLibro(@PathVariable Long id,
 
     Libro libro = libroOpt.get();
 
-    // Validazione: almeno un autore
+    
+
     boolean erroreAutori = (autoreIds == null || autoreIds.isEmpty());
     if (erroreAutori || titolo == null || titolo.isBlank()) {
         model.addAttribute("libro", libro);
@@ -232,18 +233,18 @@ public String modificaLibro(@PathVariable Long id,
         return "amministratori/formLibro";
     }
 
-    // Aggiorna i campi modificabili
+    
     libro.setTitolo(titolo);
     libro.setAnnoPubblicazione(annoPubblicazione);
 
-    // Aggiorna autori
+    
     List<Autore> autoriSelezionati = new ArrayList<>();
     for (Long autoreId : autoreIds) {
         autoreService.findById(autoreId).ifPresent(autoriSelezionati::add);
     }
     libro.setAutori(autoriSelezionati);
 
-    // Salva nuova copertina (opzionale)
+    
     if (copertina != null && !copertina.isEmpty()) {
         String nomeFile = titolo.toLowerCase().replace(" ", "_") + "_1.jpg";
         Path path = Paths.get("books/src/main/resources/static/images/books/");
@@ -258,7 +259,7 @@ public String modificaLibro(@PathVariable Long id,
         libro.getImmagini().add(nuovaCopertina);
     }
 
-    // Salva altre immagini (opzionali)
+    
     if (altreImmagini != null) {
         for (int i = 0; i < altreImmagini.length; i++) {
             MultipartFile img = altreImmagini[i];
@@ -289,18 +290,18 @@ public String rimuoviImmagine(@PathVariable Long idImg, RedirectAttributes redir
         Immagine immagine = immagineOpt.get();
         Libro libro = immagine.getLibro();
 
-        // Rimuove dal libro
+        
         libro.getImmagini().removeIf(img -> img.getId().equals(idImg));
-        libroService.save(libro); // Necessario se orphanRemoval è attivo
+        libroService.save(libro); 
 
-        // Cancella anche dal DB
+       
         immagineService.deleteById(idImg);
 
-        // Redirect alla pagina di modifica del libro
+        
         return "redirect:/amministratori/libri/modifica/" + libro.getId();
     }
 
-    // Se non trovata, torna alla lista
+    
     return "redirect:/amministratori/libri";
 }
     @GetMapping("/amministratori/libri/new")
@@ -338,7 +339,7 @@ public String saveLibro(@RequestParam("titolo") String titolo,
     libro.setTitolo(titolo);
     libro.setAnnoPubblicazione(annoPubblicazione);
     System.out.println("Arriva fino a qui: ");
-    // Salva copertina
+    
     try{
     System.out.println("Inizio salvataggio copertina...");
     if (!copertina.isEmpty()) {
@@ -382,14 +383,14 @@ public String saveLibro(@RequestParam("titolo") String titolo,
             Immagine immagineExtra = new Immagine();
             immagineExtra.setNomeFile(nomeFile);
             immagineExtra.setPath("/images/books/" + nomeFile);
-            immagineExtra.setLibro(libro); // Associa il libro
+            immagineExtra.setLibro(libro); 
             libro.getImmagini().add(immagineExtra);
         }
     }
 }
 
 
-    // Setta gli autori
+    
     List<Autore> autoriSelezionati = new ArrayList<>();
     for (Long id : autoreIds) {
         autoreService.findById(id).ifPresent(autoriSelezionati::add);
@@ -417,7 +418,7 @@ public String filtraLibri(@RequestParam(required = false) String titolo,
     List<Libro> libri;
     
     if (titolo != null && !titolo.isEmpty()) {
-        // Se c'è la ricerca, la priorità va a quella
+        
         libri = libroService.findByTitoloContainingIgnoreCase(titolo);
     } else if ("titolo".equalsIgnoreCase(ordina)) {
         libri =  libroService.findAll();
@@ -437,7 +438,7 @@ public String filtraLibri(@RequestParam(required = false) String titolo,
     for (Libro libro : libri) {
         if(libro.getImmagini() == null || libro.getImmagini().isEmpty()) {
             System.out.println("Libro senza immagini: " + libro.getTitolo());
-            continue; // Skip libri without images
+            continue; 
         }else{pathsImmagini.add(libro.getImmagini().get(0).getPath());
         System.out.println("Path immagine: " + libro.getImmagini().get(0).getPath());
         }

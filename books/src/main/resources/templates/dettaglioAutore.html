@@ -9,12 +9,12 @@
 </head>
 <body>
 
-<!-- Navbar pubblica -->
+
 <div th:replace="~{fragments/navbar :: navbar}"></div>
 
 <div class="container">
 
-    <!-- 👤 Dati autore -->
+  
     <div class="card">
         <img th:if="${autore.fotografia != null}" 
      th:src="@{${autore.fotografia.path}}" 
@@ -51,7 +51,7 @@
         </div>
     </div>
 
-    <!-- 📚 Libri scritti -->
+
     <h2>Libri scritti</h2>
 
     <div class="grid-libri">

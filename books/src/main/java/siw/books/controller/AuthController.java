@@ -45,12 +45,12 @@ public class AuthController {
                              BindingResult credentialsBindingResult,
                              Model model) {
         
-        // Validation check for both objects
+       
         if (utenteBindingResult.hasErrors() || credentialsBindingResult.hasErrors()) {
             model.addAttribute("msgError", "Errore nella validazione dei dati");
             return "register.html";
         }
-        // Check if username already exists
+        
         if (credentialsService.existsByUsername(credentials.getUsername())) {
             model.addAttribute("msgError", "Username già in uso");
             return "register.html";
@@ -61,10 +61,10 @@ public class AuthController {
         }
         try {
             
-            // Link utente to credentials
+            
             credentials.setUtente(utente);
             
-            // Save credentials (which will cascade to utente due to @OneToOne relationship)
+           
             credentialsService.saveCredentials(credentials);
             
             model.addAttribute("msgSuccess", "Registrazione completata con successo");

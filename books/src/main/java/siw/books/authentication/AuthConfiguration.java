@@ -38,7 +38,7 @@ public class AuthConfiguration {
 	@Bean
 	protected SecurityFilterChain configure(final HttpSecurity httpSecurity) throws Exception {
 		httpSecurity.csrf().and().cors().disable().authorizeHttpRequests()
-				// Consentiti a tutti (occasionali)
+				
 				.requestMatchers(HttpMethod.GET,
     "/", "/index",
     "/libri", "/libri/**",
@@ -49,16 +49,16 @@ public class AuthConfiguration {
 				.permitAll().requestMatchers(HttpMethod.POST, "/register", "/login")
 				.permitAll()
 
-				// Solo ADMIN_ROLE
+				
 				.requestMatchers("/amministratori/**").hasAuthority(ADMIN_ROLE)
 
-				// Solo DEFAULT_ROLE
+				
 				.requestMatchers("/utenti/**").hasAuthority(DEFAULT_ROLE)
 
-				// Qualunque altra richiesta: autenticazione
-				.anyRequest().authenticated().and().formLogin().loginPage("/login") // Pagina di login di default
-																							// per tutti
-				.loginProcessingUrl("/login") // URL di submit form login user
+				
+				.anyRequest().authenticated().and().formLogin().loginPage("/login")
+																							
+				.loginProcessingUrl("/login") 
 				.usernameParameter("username").passwordParameter("pwd")
 				.successHandler((request, response, authentication) -> {
 	var principal = authentication.getPrincipal();

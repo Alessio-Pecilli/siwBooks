@@ -9,7 +9,7 @@ import siw.books.model.Autore;
 @Repository
 public interface ImmagineRepository extends JpaRepository<Immagine, Long> {
     
-    List<Immagine> findByAutore(Autore autore); // per delete autore
+    List<Immagine> findByAutore(Autore autore); 
     
-    List<Immagine> findByLibroId(Long libroId); // utile se ti serve mostrare tutte le immagini di un libro
+    List<Immagine> findByLibroId(Long libroId); 
 }

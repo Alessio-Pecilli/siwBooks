@@ -9,12 +9,10 @@
 </head>
 <body>
 
-<!-- Navbar utenti -->
 <div th:replace="~{fragments/navbar :: navbar}"></div>
 
 <div class="container">
 
-    <!-- 📘 Dettaglio libro -->
     <div class="card">
         <img th:src="@{${copertina}}" alt="Copertina principale" />
         <div class="info">
@@ -37,13 +35,12 @@
         </div>
     </div>
 
-    <!-- 🖼️ Galleria -->
+   
     <h2>Ulteriori immagini</h2>
     <div class="galleria">
         <img th:each="path : ${copertine}" th:src="@{${path}}" th:alt="'Copertina aggiuntiva'" />
     </div>
 
-    <!-- 👤 Autori -->
    <div class="autori">
     <h2 th:if="${#lists.isEmpty(libro.autori)}">Nessun autore</h2>
     <h2 th:if="${#lists.size(libro.autori) == 1}">Autore</h2>
@@ -91,7 +88,7 @@
     </div>
 </div>
 
-    <!-- 📝 Form recensione -->
+
     <h2>Aggiungi una recensione</h2>
 
     <form method="post" th:action="@{/utenti/libri/{id}/aggiungiRecensione(id=${libro.id})}"
