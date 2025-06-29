@@ -89,10 +89,11 @@
 </div>
 
 
-    <h2>Aggiungi una recensione</h2>
+    
 
-    <form method="post" th:action="@{/utenti/libri/{id}/aggiungiRecensione(id=${libro.id})}"
+    <form method="post" th:if="!${inserita}" th:action="@{/utenti/libri/{id}/aggiungiRecensione(id=${libro.id})}"
           th:object="${recensione}" class="recensione-form">
+          <h2>Aggiungi una recensione</h2>
 
         <div class="form-group">
             <label for="titolo">Titolo</label>

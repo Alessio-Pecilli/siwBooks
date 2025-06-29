@@ -164,6 +164,13 @@ public String mostraSingoloLibro(@PathVariable Long id, Model model, Authenticat
         } else if (ruolo.equals(Credentials.DEFAULT_ROLE)) {
             model.addAttribute("recensione", new Recensione());
             model.addAttribute("utente", credentials.getUtente());
+            boolean presente = false;
+            for(Recensione r : libro.getRecensioni()){
+                if(r.getAutore().getId() == credentials.getUtente().getId()){
+                    presente = true;
+                }
+            }
+            model.addAttribute("inserita", presente);
             return "utentiRegistrati/dettaglioLibro";
         }
     }

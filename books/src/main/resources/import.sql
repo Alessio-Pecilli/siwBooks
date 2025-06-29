@@ -38,18 +38,15 @@ INSERT INTO recensione (titolo, voto, testo, autore_id, libro_id) VALUES ('Disto
 INSERT INTO recensione (titolo, voto, testo, autore_id, libro_id) VALUES ('Avvincente', 5, 'Letto tutto d’un fiato', (SELECT id FROM utente WHERE nome = 'Simone' AND cognome = 'Morolli'), (SELECT id FROM libro WHERE titolo = 'The Walking Dead'));
 INSERT INTO recensione (titolo, voto, testo, autore_id, libro_id) VALUES ('Fiabesco', 4, 'Mi ha fatto sognare', (SELECT id FROM utente WHERE nome = 'Simone' AND cognome = 'Morolli'), (SELECT id FROM libro WHERE titolo = 'Harry Potter'));
 INSERT INTO recensione (titolo, voto, testo, autore_id, libro_id) VALUES ('Confuso ma epico', 3, 'Troppi nomi, ma bella trama', (SELECT id FROM utente WHERE nome = 'Simone' AND cognome = 'Morolli'), (SELECT id FROM libro WHERE titolo = 'Game of Thrones'));
-INSERT INTO recensione (titolo, voto, testo, autore_id, libro_id) VALUES ('Non il mio genere', 2, 'Troppa violenza per i miei gusti', (SELECT id FROM utente WHERE nome = 'Simone' AND cognome = 'Morolli'), (SELECT id FROM libro WHERE titolo = 'The Walking Dead'));
 INSERT INTO recensione (titolo, voto, testo, autore_id, libro_id) VALUES ('Angosciante', 4, 'Una visione cupa del futuro', (SELECT id FROM utente WHERE nome = 'Giulia' AND cognome = 'Biba'), (SELECT id FROM libro WHERE titolo = '1984'));
-INSERT INTO recensione (titolo, voto, testo, autore_id, libro_id) VALUES ('Intrigante', 5, 'Mi ha colpita nel profondo', (SELECT id FROM utente WHERE nome = 'Giulia' AND cognome = 'Biba'), (SELECT id FROM libro WHERE titolo = '1984'));
+
 
 INSERT INTO recensione (titolo, voto, testo, autore_id, libro_id) VALUES ('Fantastico', 5, 'Magia pura dalla prima pagina', (SELECT id FROM utente WHERE nome = 'Giulia' AND cognome = 'Biba'), (SELECT id FROM libro WHERE titolo = 'Harry Potter'));
-INSERT INTO recensione (titolo, voto, testo, autore_id, libro_id) VALUES ('Bellissimo', 4, 'Harry è troppo forte', (SELECT id FROM utente WHERE nome = 'Giulia' AND cognome = 'Biba'), (SELECT id FROM libro WHERE titolo = 'Harry Potter'));
 
 INSERT INTO recensione (titolo, voto, testo, autore_id, libro_id) VALUES ('Crudo', 3, 'Mi ha messo ansia ma mi è piaciuto', (SELECT id FROM utente WHERE nome = 'Giulia' AND cognome = 'Biba'), (SELECT id FROM libro WHERE titolo = 'The Walking Dead'));
-INSERT INTO recensione (titolo, voto, testo, autore_id, libro_id) VALUES ('Poco realistico', 2, 'Troppo splatter per me', (SELECT id FROM utente WHERE nome = 'Giulia' AND cognome = 'Biba'), (SELECT id FROM libro WHERE titolo = 'The Walking Dead'));
+
 
 INSERT INTO recensione (titolo, voto, testo, autore_id, libro_id) VALUES ('Avvincente', 5, 'Non riuscivo a smettere di leggerlo', (SELECT id FROM utente WHERE nome = 'Giulia' AND cognome = 'Biba'), (SELECT id FROM libro WHERE titolo = 'Game of Thrones'));
-INSERT INTO recensione (titolo, voto, testo, autore_id, libro_id) VALUES ('Troppi personaggi', 3, 'All’inizio confuso, poi bello', (SELECT id FROM utente WHERE nome = 'Giulia' AND cognome = 'Biba'), (SELECT id FROM libro WHERE titolo = 'Game of Thrones'));
 
 INSERT INTO credentials(id, utente_id, password, role, username) VALUES (nextval('credentials_seq'),(SELECT u.id FROM utente as u WHERE u.email='a@gmail.com'),'$2a$10$Nz4769bR1Iutd8perNFRPuB9xf5CbEMqRd02hg8twA.6jqE1Gq1Iy', 'ADMIN','ale');
 INSERT INTO credentials(id, utente_id, password, role, username) VALUES (nextval('credentials_seq'),(SELECT u.id FROM utente as u WHERE u.email='g@gmail.com'),'$2a$10$Nz4769bR1Iutd8perNFRPuB9xf5CbEMqRd02hg8twA.6jqE1Gq1Iy', 'ADMIN','biba');
