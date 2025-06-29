@@ -93,7 +93,7 @@ public List<Autore> findTopAutori() {
 }
 
 public List<Autore> findByNomeOrCognome(String nome) {
-    return autoreRepository.findByNomeContainingIgnoreCaseOrCognomeContainingIgnoreCase(nome, nome);
+    return autoreRepository.findAuthorByString(nome);
 }
 
 
