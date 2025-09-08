@@ -1,0 +1,124 @@
+:root {
+    --primary: #ff5f6d;
+    --secondary: #ffc371;
+    --text-dark: #222;
+    --text-light: #666;
+    --bg-start: #fff5f7;
+    --bg-end: #ffffff;
+    --radius: 16px;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(180deg, var(--bg-start), var(--bg-end));
+    color: var(--text-dark);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+header {
+    text-align: center;
+    padding: 60px 20px 20px;
+    background-color: transparent;
+}
+
+header h1 {
+    font-size: 3.2rem;
+    margin-bottom: 10px;
+    color: var(--primary);
+    animation: slideIn 1s ease-out;
+}
+
+header p {
+    font-size: 1.2rem;
+    color: var(--text-light);
+    margin: 0 auto;
+    max-width: 600px;
+}
+
+main.buttons {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+    padding: 40px 10vw;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.buttons a {
+    text-decoration: none;
+    background: linear-gradient(90deg, var(--primary), var(--secondary));
+    color: white;
+    padding: 16px;
+    border-radius: var(--radius);
+    font-weight: 600;
+    text-align: center;
+    transition: 0.3s ease-in-out;
+    box-shadow: 0 4px 14px rgba(255, 95, 109, 0.25);
+}
+
+.buttons a:hover {
+    background: white;
+    color: var(--primary);
+    border: 2px solid var(--primary);
+    transform: translateY(-4px);
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateY(-20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+
+}.top-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 40px 20px;
+  gap: 40px;
+}
+
+.top-libri, .top-autori {
+  flex: 1;
+  text-align: center;
+}
+
+.top-libri h2, .top-autori h2 {
+  margin-bottom: 20px;
+  font-size: 28px;
+  color: #000000;
+}
+
+.card-libro, .card-autore {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.card-libro img, .card-autore img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+.card-libro p, .card-autore p {
+  margin-top: 10px;
+  font-weight: bold;
+  color: #333;
+}
+.sezione-titolo-centrato {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 26px;
+    font-weight: bold;
+    color: #222;
+}

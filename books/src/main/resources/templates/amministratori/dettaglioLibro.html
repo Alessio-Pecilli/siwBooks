@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="it" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+    <title th:text="${libro.titolo}">Dettaglio libro</title>
+    <link rel="stylesheet" th:href="@{/css/dettaglioLibro.css}">
+    <link rel="stylesheet" th:href="@{/css/navbar.css}">
+</head>
+<body>
+
+
+<div th:replace="~{fragments/navbarAmministratori :: navbar}"></div>
+
+<div class="container">
+
+    
+    <div class="card">
+        <img th:src="@{${copertina}}" alt="Copertina principale" />
+
+
+        <div class="info">
+            <h1 th:text="${libro.titolo}">Titolo</h1>
+            
+<span class="stelle" th:if="${!#lists.isEmpty(recensioni)}">
+    <strong>Voto:</strong>
+    <span th:each="i : ${#numbers.sequence(1, 5)}"
+          th:text="${i <= media ? '★' : '☆'}"
+          th:classappend="${i <= media ? 'piena' : 'vuota'}"
+          class="stellina">★</span>
+    <span th:text="| (${media} / 5) |">(0 / 5)</span>
+</span>
+
+<span th:if="${#lists.isEmpty(recensioni)}">
+    <em>Questo libro non ha ancora recensioni.</em>
+</span>
+
+
+            <p>
+
+                <strong>Anno di pubblicazione:</strong>
+                <span th:text="${libro.annoPubblicazione}">Anno</span>
+            </p>
+            <div class="bottoni-autori">
+            <form th:action="@{'/amministratori/libri/elimina/' + ${libro.id}}" method="post">
+        
+        <button type="submit" class="btn btn-danger">Elimina</button>
+    </form>
+
+    <form th:action="@{'/amministratori/libri/modifica/' + ${libro.id}}" method="get">
+        <button type="submit" class="btn btn-edit">Modifica</button>
+    </form>
+    </div>
+        </div>
+    </div>
+
+   
+    <h2>Ulteriori immagini</h2>
+    <div class="galleria">
+    <img th:each="path : ${copertine}" th:src="@{${path}}" th:alt="'Copertina aggiuntiva'" />
+</div>
+
+    
+    <div class="autori">
+    <h2 th:if="${#lists.isEmpty(libro.autori)}">Nessun autore</h2>
+    <h2 th:if="${#lists.size(libro.autori) == 1}">Autore</h2>
+    <h2 th:if="${#lists.size(libro.autori) > 1}">Autori</h2>
+
+    <div class="grid-autori" th:if="${!#lists.isEmpty(libro.autori)}">
+        <div class="card-autore" th:each="a : ${libro.autori}">
+            <a th:href="@{'/amministratori/autori/' + ${a.id}}">
+                <img th:if="${a.fotografia != null}" 
+                     th:src="@{${a.fotografia.path}}" 
+                     th:alt="|Foto di ${a.nome} ${a.cognome}|" />
+            </a>
+            <div class="info">
+                <h3 th:text="${a.nome + ' ' + a.cognome}">Nome Cognome</h3>
+                <p th:text="${a.nazionalita}">Nazionalità</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+    <h2>Recensioni</h2>
+<div class="recensioni">
+
+    <p th:if="${#lists.isEmpty(recensioni)}"><em>Ancora nessuna recensione</em></p>
+
+    <div class="card-recensione" th:each="rec : ${recensioni}" th:unless="${#lists.isEmpty(recensioni)}">
+        <h3 th:text="${rec.titolo}">Titolo recensione</h3>
+
+        <p>
+            <strong>Voto:</strong>
+            <span th:each="i : ${#numbers.sequence(1, 5)}"
+                  th:text="${i <= rec.voto ? '★' : '☆'}"
+                  th:classappend="${i <= rec.voto ? 'piena' : 'vuota'}"
+                  class="stellina">★</span>
+            <span th:text="| (${rec.voto} / 5) |">(0 / 5)</span>
+        </p>
+
+        <p>
+            <strong>Autore:</strong>
+            <span th:if="${rec.autore != null}" th:text="${rec.autore.nome + ' ' + rec.autore.cognome}">Nome Cognome</span>
+            <em th:if="${rec.autore == null}">Utente anonimo</em>
+        </p>
+
+        <p th:text="${rec.testo}">Testo recensione</p>
+        <form th:action="@{'/amministratori/recensioni/elimina/' + ${rec.id}}" method="post">
+            <button type="submit" class="btn btn-danger">Elimina</button>
+        </form>
+    </form>
+    </div>
+</div>
+
+</div>
+
+</body>
+</html>

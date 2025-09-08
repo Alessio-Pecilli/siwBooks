@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="it" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Libri</title>
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+    <link rel="stylesheet" th:href="@{/css/libri.css}">
+    <link rel="stylesheet" th:href="@{/css/navbar.css}">
+</head>
+<body>
+
+<div th:replace="~{fragments/navbarAmministratori :: navbar}"></div>
+
+<h1>Libri</h1>
+
+    
+        <form class="search-bar" th:action="@{/libri/filtra}" method="get">
+        
+    <input type="text" name="titolo" placeholder="Cerca per titolo..." />
+    <button type="submit">Cerca</button>
+    </form>
+<div class="ordina-bar">
+    <a th:href="@{/libri/filtra(ordina='titolo')}" class="ordina-btn">Ordina per Titolo</a>
+    <a th:href="@{/libri/filtra(ordina='anno')}" class="ordina-btn">Ordina per Anno di pubblicazione</a>
+    <a th:href="@{/libri/filtra(ordina='voti')}" class="ordina-btn">Ordina per Media voti</a>
+</div>
+
+    <h1 th:if="${#lists.isEmpty(libri)}" >
+    Nessun libro trovato.
+    </h1>
+<div class="container">
+<div class="grid-libri">
+        <div class="card-libro" th:each="libro : ${libri}">
+            <a th:href="@{'/libri/' + ${libro.id}}">
+                <img th:if="${copertine.size() > libroStat.index}"
+     th:src="@{${copertine[libroStat.index]}}"
+     th:alt="|Copertina di ${libro.titolo}|" />
+
+            </a>
+            <div class="content">
+                <h2 th:text="${libro.titolo}">Titolo Libro</h2>
+                <p class="anno"><strong>Anno:</strong> <span th:text="${libro.annoPubblicazione}">2023</span></p>
+                <div class="autori">
+    <span th:if="${#lists.isEmpty(libro.autori)}">Nessun autore</span>
+
+    <span th:if="${#lists.size(libro.autori) == 1}"><strong>Autore:</strong> </span>
+    <span th:if="${#lists.size(libro.autori) > 1}"><strong>Autori: </strong></span>
+
+    <span th:each="a : ${libro.autori}"
+          th:text="${a.nome + ' ' + a.cognome + ' - '}"><strong>Autore</strong></span>
+</div>
+                <div class="bottoni-libro">
+    <div class="bottoni-libro">
+    <form th:action="@{'/amministratori/libri/elimina/' + ${libro.id}}" method="post">
+        
+        <button type="submit" class="btn btn-danger">Elimina</button>
+    </form>
+
+    <form th:action="@{'/amministratori/libri/modifica/' + ${libro.id}}" method="get">
+        <button type="submit" class="btn btn-edit">Modifica</button>
+    </form>
+</div>
+</div>
+        </div>
+    </div>
+
+</div>
+<a href="/amministratori/libri/new" class="btn btn-add">Aggiungi Libro</a>
+
+</body>
+</html>

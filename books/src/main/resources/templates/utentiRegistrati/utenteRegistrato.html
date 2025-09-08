@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="it" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+    <title>Area Utente</title>
+    <link rel="stylesheet" th:href="@{/css/auth.css}">
+    <link rel="stylesheet" th:href="@{/css/navbar.css}">
+    <link rel="stylesheet" th:href="@{/css/libri.css}">
+</head>
+<body>
+
+<header class="header">
+    <div th:replace="~{fragments/navbar :: navbar}"></div>
+</header>
+
+<main class="main-content">
+    <h1>Benvenuto <span th:text="${utente.nome}">Nome</span>!</h1>
+
+    <section class="user-info">
+        <h2>Le tue informazioni</h2>
+        <ul>
+            <li><strong>ID:</strong> <span th:text="${utente.id}">ID</span></li>
+            <li><strong>Nome:</strong> <span th:text="${utente.nome}">Nome</span></li>
+            <li><strong>Cognome:</strong> <span th:text="${utente.cognome}">Cognome</span></li>
+            
+        </ul>
+        <form class="logout-form" th:action="@{/logout}" method="post">
+    <button type="submit" class="logout-button">Esci</button>
+</form>
+    
+</div>
+
+    </section>
+
+    <section class="libri-recensiti" th:if="${not #lists.isEmpty(recensioniUtente)}">
+    <h2>Libri recensiti</h2>
+    <div class="container">
+    <div class="grid-libri">
+        <div class="card-libro" th:each="rec, recensioneStat : ${recensioniUtente}">
+            <a th:href="@{'/libri/' + ${rec.libro.id}}">
+                <img th:if="${copertineUtente.size() > recensioneStat.index}"
+                     th:src="@{${copertineUtente[recensioneStat.index]}}"
+                     th:alt="|Copertina di ${rec.libro.titolo}|" />
+            </a>
+            <div class="content">
+                <h2 th:text="${rec.libro.titolo}">Titolo Libro</h2>
+                
+                <p>
+                <strong>Voto:</strong>
+                <span th:each="i : ${#numbers.sequence(1, 5)}"
+          th:text="${i <= rec.voto ? '★' : '☆'}"
+          th:classappend="${i <= rec.voto ? 'piena' : 'vuota'}"
+          class="stellina">★</span>
+    <span th:text="| (${rec.voto} / 5) |">(0 / 5)</span>
+            </p>
+                <p><strong>Commento:</strong> <span th:text="${rec.testo}">Molto bello</span></p>
+            </div>
+        </div>
+    </div>
+    </div>
+</section>
+
+
+
+</main>
+
+</body>
+</html>

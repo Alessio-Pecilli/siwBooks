@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="it" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+    <title th:text="${autore.nome + ' ' + autore.cognome}">Dettaglio autore</title>
+    <link rel="stylesheet" th:href="@{/css/dettaglioAutore.css}">
+    <link rel="stylesheet" th:href="@{/css/navbar.css}">
+</head>
+<body>
+
+
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<div class="container">
+
+  
+    <div class="card">
+        <img th:if="${autore.fotografia != null}" 
+     th:src="@{${autore.fotografia.path}}" 
+     th:alt="|Foto di ${autore.nome} ${autore.cognome}|" />
+        
+
+        <div class="info">
+            <h1 th:text="${autore.nome + ' ' + autore.cognome}">Nome Cognome</h1>
+            
+     <span class="stelle" th:if="${media != 0}">
+    <strong>Voto medio libri scritti:</strong>
+    <span th:each="i : ${#numbers.sequence(1, 5)}"
+          th:text="${i <= media ? '★' : '☆'}"
+          th:classappend="${i <= media ? 'piena' : 'vuota'}"
+          class="stellina">★</span>
+    <span th:text="| (${media} / 5) |">(0 / 5)</span>
+</span>
+
+<span class="stelle" th:if="${media == 0}">
+    <em>Nessun libro dell'autore ha ancora ricevuto voti.</em>
+</span>
+            <p>
+                <strong>Nascita:</strong> 
+                <span th:text="${#temporals.format(autore.dataNascita, 'dd/MM/yyyy')}">--</span>
+
+            </p>
+            <p th:if="${autore.dataMorte != null}">
+    <strong>Morte:</strong> 
+    <span th:text="${#temporals.format(autore.dataMorte, 'dd/MM/yyyy')}">--</span>
+</p>
+            <p><strong>Nazionalità:</strong> 
+                <span th:text="${autore.nazionalita}">Nazionalità</span>
+            </p>
+        </div>
+    </div>
+
+
+    <h2>Libri scritti</h2>
+
+    <div class="grid-libri">
+        <div class="card-libro" th:each="libro : ${libri}">
+            <a th:href="@{'/libri/' + ${libro.id}}">
+                <img th:src="@{'/images/books/' + ${#strings.replace(#strings.toLowerCase(libro.titolo), ' ', '_')} + '_1.jpg'}"
+                     th:alt="|Copertina di ${libro.titolo}|" />
+            </a>
+            <div class="content">
+                <h2 th:text="${libro.titolo}">Titolo Libro</h2>
+                <p class="anno">Anno: <span th:text="${libro.annoPubblicazione}">2023</span></p>
+                <div class="autori">
+                    <span th:each="a : ${libro.autori}" th:text="${a.nome + ' ' + a.cognome + ' '}">Autore</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>
