@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="it" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+    <title>Form Libro</title>
+    <link rel="stylesheet" th:href="@{/css/formLibro.css}">
+</head>
+<body>
+
+<h1 th:text="${libro.id != null} ? 'Modifica Libro' : 'Inserisci un Nuovo Libro'"></h1>
+
+<div class="card" th:if="${libro.titolo != null}">
+    <img th:src="@{${copertina}}" alt="Copertina principale" />
+
+    <div class="info">
+        <h1 th:text="${libro.titolo}">Titolo</h1>
+
+        <span class="stelle" th:if="${!#lists.isEmpty(recensioni)}">
+            <strong>Voto:</strong>
+            <span th:each="i : ${#numbers.sequence(1, 5)}"
+                  th:text="${i <= media ? '★' : '☆'}"
+                  th:classappend="${i <= media ? 'piena' : 'vuota'}"
+                  class="stellina">★</span>
+            <span th:text="| (${media} / 5) |">(0 / 5)</span>
+        </span>
+
+        <span th:if="${#lists.isEmpty(recensioni)}">
+            <em>Questo libro non ha ancora recensioni.</em>
+        </span>
+
+        <p>
+            <strong>Anno di pubblicazione:</strong>
+            <span th:text="${libro.annoPubblicazione}">Anno</span>
+        </p>
+    </div>
+</div>
+
+<form th:action="${libro.id != null} ? @{/amministratori/libri/modifica/{id}(id=${libro.id})} : @{/amministratori/libri/salva}"
+      method="post" enctype="multipart/form-data">
+
+    <label for="titolo">Titolo</label>
+    <input type="text" id="titolo" name="titolo" th:value="${libro.titolo}" required>
+
+    <label for="annoPubblicazione">Anno di Pubblicazione</label>
+    <input type="number" id="annoPubblicazione" name="annoPubblicazione" th:value="${libro.annoPubblicazione}" required>
+
+    <label for="copertina">Copertina</label>
+    <input type="file" id="copertina" name="copertina" accept="image/*" >
+
+    <label for="altreImmagini">Aggiungi ulteriori Immagini</label>
+    <input type="file" id="altreImmagini" name="altreImmagini" multiple accept="image/*">
+
+
+    <label>Autori</label>
+    <div th:if="${erroreAutori}" th:text="${erroreAutori}"></div>
+
+    <div class="grid-libri">
+        <div class="card-libro" th:each="autore : ${autori}">
+            <a th:href="@{'/autori/' + ${autore.id}}">
+            <img th:if="${autore.fotografia != null}" 
+     th:src="@{${autore.fotografia.path}}" 
+     th:alt="|Foto di ${autore.nome} ${autore.cognome}|" />
+        </a>
+            <div class="content">
+                <p th:text="${autore.nome + ' ' + autore.cognome}"></p>
+                <input type="checkbox"
+                       th:value="${autore.id}"
+                       th:name="autoreIds"
+                       th:checked="${libro.autori != null and libro.autori.contains(autore)}">
+            </div>
+        </div>
+    </div>
+
+    <button type="submit">Salva Libro</button>
+
+<div class="galleria">
+    <div class="card-img" th:each="img, stat : ${libro.immagini}" th:if="${stat.index > 0}">
+        <img th:src="@{${img.path}}" th:alt="'Immagine aggiuntiva'" />
+        <form th:action="@{/amministratori/libri/rimuoviImmagine/{idImg}(idImg=${img.id})}" method="post">
+            <input type="hidden" name="_method" value="delete"/>
+            <button type="submit">Elimina</button>
+        </form>
+    </div>
+</div>
+
+</form>
+
+</body>
+</html>

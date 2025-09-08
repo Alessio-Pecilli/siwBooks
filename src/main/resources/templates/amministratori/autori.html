@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="it" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Autori</title>
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+    <link rel="stylesheet" th:href="@{/css/autori.css}">
+    <link rel="stylesheet" th:href="@{/css/navbar.css}">
+</head>
+<body>
+
+
+<div th:replace="~{fragments/navbarAmministratori :: navbar}"></div>
+
+<h1>Autori</h1>
+
+
+
+   
+<form class="search-bar" th:action="@{/autori/filtra}" method="get">
+    <input type="text" name="nome" placeholder="Cerca autore per nome o cognome..." />
+    <button type="submit">Cerca</button>
+</form>
+<div class="ordina-bar">
+    <a th:href="@{/autori/filtra(ordina='nome')}" class="ordina-btn">Ordina per Nome</a>
+    <a th:href="@{/autori/filtra(ordina='anno')}" class="ordina-btn">Ordina per Anno di nascita</a>
+    <a th:href="@{/autori/filtra(ordina='voto')}" class="ordina-btn">Ordina per Media voti</a>
+</div>
+<h1 th:if="${#lists.isEmpty(autori)}">
+    Nessun autore trovato.
+    </h1>
+<div class="container">
+    <div class="card" th:each="autore : ${autori}">
+
+        
+        <a th:href="@{'/amministratori/autori/' + ${autore.id}}">
+            <img th:if="${autore.fotografia != null}" 
+     th:src="@{${autore.fotografia.path}}" 
+     th:alt="|Foto di ${autore.nome} ${autore.cognome}|" />
+        </a>
+
+        
+        <div class="info">
+            <h2 th:text="${autore.nome + ' ' + autore.cognome}">Nome Cognome</h2>
+
+            <p th:if="${autore.dataNascita != null}">
+                <strong>Nascita:</strong> 
+                <span th:text="${#temporals.format(autore.dataNascita, 'dd/MM/yyyy')}">--</span>
+
+            </p>
+            <p th:if="${autore.dataMorte != null}">
+    <strong>Morte:</strong> 
+    <span th:text="${#temporals.format(autore.dataMorte, 'dd/MM/yyyy')}">--</span>
+</p>
+            <p th:if="${autore.nazionalita != null && autore.nazionalita != ''}">
+                <strong>Nazionalità:</strong> 
+                <span th:text="${autore.nazionalita}">--</span>
+            </p>
+
+            <div class="bottoni-autori">
+    <form th:action="@{'/amministratori/eliminaAutore/' + ${autore.id}}" method="post">
+        <button type="submit" class="btn btn-danger">Elimina</button>
+    </form>
+
+    <form th:action="@{'/amministratori/autori/modifica/' + ${autore.id}}" method="get">
+        <button type="submit" class="btn btn-edit">Modifica</button>
+    </form>
+</div>
+
+        
+    </div>
+</div>
+</div>
+<div class="contenitore-add">
+    <a href="/amministratori/autori/new" class="btn btn-add">Aggiungi Autore</a>
+</div>
+
+
+</body>
+</html>

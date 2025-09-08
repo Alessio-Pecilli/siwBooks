@@ -1,0 +1,51 @@
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #fafafa;
+    margin: 0;
+    padding: 2rem;
+    color: #111;
+}
+
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.card {
+    display: flex;
+    background-color: #fff;
+    border-radius: 14px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    overflow: hidden;
+    margin-bottom: 2rem;
+}
+
+.card img {
+    width: 300px;
+    height: auto;
+    object-fit: cover;
+}
+
+.info {
+    padding: 1.5rem;
+}
+
+h1 {
+    margin: 0;
+    font-size: 2rem;
+}
+
+.libri h2 {
+    margin-bottom: 1rem;
+}
+
+ul {
+    list-style: square;
+    padding-left: 1.5rem;
+}
+
+ul li {
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+
+}

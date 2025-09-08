@@ -1,0 +1,182 @@
+body {
+    font-family: 'Segoe UI', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(120deg, #ffffff, #ffc371);
+    min-height: 100vh;
+    color: #333;
+}
+
+h1 {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+}
+
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    justify-content: center;
+}
+
+.card {
+    background: #fff;
+    border-radius: 14px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    width: 260px;
+    transition: transform 0.2s ease;
+    border: 1px solid #e0d6c3;
+}
+
+.card:hover {
+    transform: translateY(-6px);
+}
+
+.card img {
+    width: 100%;
+    height: 320px;
+    object-fit: cover;
+}
+
+.info {
+    padding: 1rem;
+}
+
+.info h2 {
+    margin: 0 0 0.5rem;
+    font-size: 1.3rem;
+}
+
+.info p {
+    margin: 0.4rem 0;
+    font-size: 0.9rem;
+    color: #444;
+}
+
+.bottoni-autori {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 14px;
+}
+
+.bottoni-autori form {
+    margin: 0;
+}
+
+.bottoni-autori button {
+    width: 100px;
+    height: 36px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    font-size: 0.9em;
+    font-weight: bold;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    text-align: center;
+}
+
+.btn-danger {
+    background-color: #e84e4b;
+    color: white;
+}
+.btn-danger:hover {
+    background-color: #c62828;
+}
+
+.btn-edit {
+    background-color: #4494da;
+    color: white;
+}
+.btn-edit:hover {
+    background-color: #1565c0;
+}
+
+
+
+.contenitore-add {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+    width: 100%;
+}
+
+.btn-add {
+    background-color: #7c3aed;;
+    color: white;
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: background-color 0.3s;
+}
+.btn-add:hover {
+    background-color: #5b21b6;
+}
+
+.search-bar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0;
+    margin-bottom: 1.5rem;
+}
+
+.search-bar input[type="text"] {
+    padding: 10px 16px;
+    width: 300px;
+    border: none;
+    border-radius: 30px 0 0 30px;
+    font-size: 1rem;
+    outline: none;
+    box-shadow: 0 2px 6px var(--shadow);
+    background: white;
+}
+
+.search-bar button {
+    padding: 10px 24px;
+    background-color: #ff914d;
+    color: white;
+    border: none;
+    border-radius: 0 30px 30px 0;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    font-size: 1rem;
+}
+
+.search-bar button:hover {
+    background-color: #e67327;
+}
+
+.ordina-bar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.ordina-btn {
+    padding: 10px 24px;
+    background-color: #ff914d;
+    color: white;
+    border: none;
+    border-radius: 30px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    font-size: 1rem;
+    text-decoration: none;
+    box-shadow: 0 2px 6px var(--shadow);
+}
+
+.ordina-btn:hover {
+    background-color: #e67327;
+}
