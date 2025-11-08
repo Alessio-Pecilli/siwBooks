@@ -1,4 +1,3 @@
-@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 package siw.books.repository;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -18,7 +17,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @DataJpaTest
 @DisplayName("LibroRepository Integration Tests")
 class LibroRepositoryTest {

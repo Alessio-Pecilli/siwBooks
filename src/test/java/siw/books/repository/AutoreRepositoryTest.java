@@ -1,4 +1,4 @@
-@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
+
 package siw.books.repository;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @DataJpaTest
 @DisplayName("AutoreRepository Integration Tests")
 class AutoreRepositoryTest {
