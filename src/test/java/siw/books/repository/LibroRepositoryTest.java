@@ -1,3 +1,4 @@
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 package siw.books.repository;
 
 import org.junit.jupiter.api.BeforeEach;
