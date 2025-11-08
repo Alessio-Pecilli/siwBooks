@@ -54,7 +54,7 @@ jobs:
       - name: Analyze
         uses: github/codeql-action/analyze@v3
 
-  unit-tests:
+    unit-tests:
     name: Unit Tests
     runs-on: ubuntu-latest
     needs: security
@@ -71,8 +71,9 @@ jobs:
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-m2-
-      - name: Run Unit Tests
-        run: mvn test -Dspring.profiles.active=ci
+      - name: Run Unit Tests (fresh build)
+        run: mvn clean test -Dspring.profiles.active=ci
+
 
   package:
     name: Packaging / Deliverable
