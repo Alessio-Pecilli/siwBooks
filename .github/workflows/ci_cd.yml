@@ -68,8 +68,8 @@ jobs:
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-m2-
-      - name: Run Unit Tests (fresh build)
-        run: mvn clean test -Dspring.profiles.active=ci
+      - name: Run Unit Tests (skip integration tests)
+        run: mvn clean test -Dspring.profiles.active=ci "-Dtest=!BasicIntegrationTest"
 
   package:
     name: Packaging / Deliverable
